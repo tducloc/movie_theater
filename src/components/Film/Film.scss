@@ -1,0 +1,18 @@
+.film__link {
+  display: block;
+  .film__img {
+    img {
+      width: 100%;
+
+      height: 350px;
+      object-fit: cover;
+    }
+  }
+
+  .film__title {
+    color: #fff;
+    font-size: 1.6rem;
+    text-align: center;
+    margin-top: 1rem;
+  }
+}

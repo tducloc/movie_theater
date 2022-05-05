@@ -1,0 +1,44 @@
+.horizontal-scroll {
+  position: relative;
+
+  h3 {
+    font-size: 1.6rem;
+  }
+
+  .horizontal-scroll__top {
+    display: flex;
+    justify-content: space-between;
+    .direction-btn-block {
+      display: flex;
+      font-size: 2rem;
+      column-gap: 2rem;
+
+      .btn-left,
+      .btn-right {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .horizontal-scroll-list {
+    display: flex;
+    columns: 1.6rem;
+    column-gap: 6rem;
+    overflow-x: auto;
+    margin-top: 1rem;
+    padding: 0.2rem 0.2rem;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    .similar__movie {
+      img {
+        width: auto;
+      }
+    }
+  }
+}
+
+.disable {
+  pointer-events: none;
+  color: #333;
+}
