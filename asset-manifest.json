@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/movie_theater/static/css/main.3c02c014.css",
+    "main.js": "/movie_theater/static/js/main.ff960169.js",
+    "static/media/footer-bg.jpg": "/movie_theater/static/media/footer-bg.7b1562b2b943d2f5056c.jpg",
+    "index.html": "/movie_theater/index.html",
+    "main.3c02c014.css.map": "/movie_theater/static/css/main.3c02c014.css.map",
+    "main.ff960169.js.map": "/movie_theater/static/js/main.ff960169.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3c02c014.css",
+    "static/js/main.ff960169.js"
+  ]
+}
