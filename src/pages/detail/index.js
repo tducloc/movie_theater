@@ -70,9 +70,13 @@ export default function DetailPage() {
       },
     });
     const data = res.data;
-
+    console.log(data);
     setDetail(data);
-    setCountry(data.production_countries[0].iso_3166_1);
+
+    const country = data?.production_countries[0]?.iso_3166_1
+      ? data?.production_countries[0]?.iso_3166_1
+      : "US";
+    setCountry(country);
   }
 
   // Get film trailers
@@ -146,7 +150,7 @@ export default function DetailPage() {
               </Link>
             )}
 
-            {!detail.backdrop_path && !detail.poster_path && (
+            {(!detail.backdrop_path || !detail.poster_path) && (
               <button className="btn" disable="true">
                 PHIM ĐANG CẬP NHẬT
               </button>
@@ -189,7 +193,7 @@ export default function DetailPage() {
 
               <div className="btn-block-right">
                 <a href="#" className="btn btn--outline-white">
-                  {detail.genres ? detail.genres[0].name : "movie"}
+                  {detail?.genres?.length > 0 ? detail.genres[0].name : "movie"}
                 </a>
               </div>
             </div>
