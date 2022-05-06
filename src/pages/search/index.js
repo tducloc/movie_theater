@@ -119,8 +119,8 @@ export default function SearchPage() {
   return (
     <div className="search ">
       <div className="container">
-        <Search />
-        {!loading && (
+        <Search searchKey={searchKey} />
+        {!loading && films.length != 0 && (
           <>
             <FilmList films={films} />
 
@@ -129,6 +129,8 @@ export default function SearchPage() {
             )}
           </>
         )}
+
+        {!loading && films.length === 0 && <h1>Không tìm thấy phim</h1>}
 
         {loading && films.length === 0 && <h1>Loading...</h1>}
 
