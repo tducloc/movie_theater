@@ -3,14 +3,17 @@ import React, { useState, useEffect } from "react";
 import FilmList from "../components/FilmList/FilmList.js";
 import "./index.scss";
 import axios from "axios";
+import useScrollToTop from "../hooks/scrollToTop.js";
 
 export default function Homepage() {
   const [popularFilms, setPopularFilms] = useState([]);
   const [latestMovies, setLatestMovies] = useState([]);
   const [latestTVSeries, setLatestTVSeries] = useState([]);
 
+  useScrollToTop();
+
   const fetchPopularFilm = async () => {
-    const uri = process.env.REACT_APP_API_URL + "/trending/all/day";
+    const uri = process.env.REACT_APP_API_URL + "/trending/all/week";
 
     const response = await axios.get(uri, {
       params: { api_key: process.env.REACT_APP_API_KEY },
@@ -21,7 +24,7 @@ export default function Homepage() {
   };
 
   const fetchLatestMovies = async () => {
-    const uri = process.env.REACT_APP_API_URL + "/movie/now_playing";
+    const uri = process.env.REACT_APP_API_URL + "/trending/movie/week";
 
     const response = await axios.get(uri, {
       params: {
@@ -33,7 +36,7 @@ export default function Homepage() {
   };
 
   const fetchLatestTVSeries = async () => {
-    const uri = process.env.REACT_APP_API_URL + "/trending/tv/day";
+    const uri = process.env.REACT_APP_API_URL + "/trending/tv/week";
 
     const response = await axios.get(uri, {
       params: {

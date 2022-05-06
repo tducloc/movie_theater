@@ -3,6 +3,11 @@
   .season__item {
     display: flex;
     column-gap: 2rem;
+    padding: 2rem 0;
+    border-bottom: 1px solid #dbdbdd;
+    &:last-child {
+      border: none;
+    }
     .season__image {
       max-width: 130px;
       img {
@@ -17,6 +22,7 @@
       a {
         font-size: 2rem;
         margin-top: 0;
+        color: #fff;
 
         &:hover {
           color: rgb(222, 248, 65);

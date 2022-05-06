@@ -8,8 +8,10 @@ import "./index.scss";
 import axios from "axios";
 import Season from "../../components/Season/Season";
 import Episode from "../../components/Episode/Episode";
-
+import useScrollToTop from "../../hooks/scrollToTop";
 export default function Detail() {
+  useScrollToTop();
+
   const [detail, setDetail] = useState([]);
   const [cast, setCast] = useState([]);
   const [director, setDirector] = useState([]);
@@ -100,10 +102,13 @@ export default function Detail() {
     getCast();
     getDetail();
     getTrailer();
-
     if (media_type === "movie") getSimilar();
     if (media_type === "tv" && season_id) getEpisodes();
-  }, []);
+  }, [season_id, id, media_type]);
+
+  // useEffect(() => {
+
+  // }, [season_id]);
 
   return (
     detail && (
@@ -238,7 +243,7 @@ export default function Detail() {
             {media_type === "tv" && season_id && episodes && (
               <div className="detail__info-episode">
                 <h2>Episodes</h2>
-                <Episode episodes={episodes} />
+                <Episode episodes={episodes} id={id} media_type={media_type} />
               </div>
             )}
           </div>
