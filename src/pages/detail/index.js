@@ -55,7 +55,8 @@ export default function DetailPage() {
 
     if (media_type === "movie") {
       const direct = res.data.crew.find((item) => item.job === "Director");
-      setDirector(direct.name);
+
+      if (direct) setDirector(direct.name);
     }
     setCast(data);
   }
