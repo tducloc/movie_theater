@@ -9,7 +9,7 @@ import axios from "axios";
 import Season from "../../components/Season/Season";
 import Episode from "../../components/Episode/Episode";
 import useScrollToTop from "../../hooks/scrollToTop";
-export default function Detail() {
+export default function DetailPage() {
   useScrollToTop();
 
   const [detail, setDetail] = useState([]);
@@ -138,10 +138,18 @@ export default function Detail() {
               />
             </div>
 
-            <Link to={watchUriGenerate()} className="btn">
-              <FontAwesomeIcon icon={faPlay}></FontAwesomeIcon>
-              XEM PHIM
-            </Link>
+            {detail.backdrop_path && detail.poster_path && (
+              <Link to={watchUriGenerate()} className="btn">
+                <FontAwesomeIcon icon={faPlay}></FontAwesomeIcon>
+                XEM PHIM
+              </Link>
+            )}
+
+            {!detail.backdrop_path && !detail.poster_path && (
+              <button className="btn" disable="true">
+                PHIM ĐANG CẬP NHẬT
+              </button>
+            )}
           </div>
           <div className="detail__info-right">
             <h1>{detail.title ?? detail.name}</h1>

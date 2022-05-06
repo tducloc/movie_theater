@@ -6,7 +6,11 @@ export default function Film({ film, media_type }) {
     <Link to={`/${media_type}/detail/${film.id}`} className="film__link">
       <div className="film__img">
         <img
-          src={process.env.REACT_APP_API_IMAGE_PATH + film.poster_path}
+          src={
+            film.poster_path
+              ? process.env.REACT_APP_API_IMAGE_PATH + film.poster_path
+              : "https://i.pinimg.com/originals/fd/2d/9f/fd2d9f4640394679d65967c13ec0de2c.jpg"
+          }
           alt="img"
         />
       </div>

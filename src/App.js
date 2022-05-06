@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Header from "./components/Header/Header.js";
 import Footer from "./components/Footer/Footer.js";
 import Watch from "./pages/watch";
+import Search from "./pages/search";
 function App() {
   return (
     <Router>
@@ -23,6 +24,9 @@ function App() {
 
           {/* Watch page */}
           <Route path="/watch/:media_type/:id" element={<Watch />}></Route>
+
+          {/* Search page */}
+          <Route path="/search" element={<Search />}></Route>
         </Routes>
         <Footer />
       </div>

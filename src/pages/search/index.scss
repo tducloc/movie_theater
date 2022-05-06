@@ -1,0 +1,27 @@
+.search {
+  margin: 10rem 0;
+  margin-bottom: 4rem;
+
+  button {
+    padding: 1rem 1.2rem;
+    font-size: 2rem;
+    color: #fff;
+    border: none;
+    background-color: #cf2122;
+    margin: 0rem auto;
+    margin-top: 5rem;
+    display: block;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #c41f20;
+    }
+  }
+
+  h1 {
+    font-size: 3rem;
+    color: #fff;
+    text-align: center;
+  }
+}

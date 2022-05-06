@@ -6,7 +6,7 @@ import "./index.scss";
 import { Link } from "react-router-dom";
 import useScrollToTop from "../../hooks/scrollToTop";
 import { getYear } from "../../lib/dateFormat";
-export default function Watch() {
+export default function WatchPage() {
   useScrollToTop();
   const { id, media_type } = useParams();
   const [searchParams] = useSearchParams();

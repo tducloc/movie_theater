@@ -30,10 +30,10 @@ export default function Header() {
 
         <ul className="header__nav">
           <li>
-            <a href="/">
+            <Link to="/search">
               <FontAwesomeIcon icon={faMagnifyingGlass} />
               <p>Tìm kiếm</p>
-            </a>
+            </Link>
           </li>
 
           <li>
