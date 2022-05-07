@@ -9,111 +9,155 @@ import axios from "axios";
 import Season from "../../components/Season/Season";
 import Episode from "../../components/Episode/Episode";
 import useScrollToTop from "../../hooks/scrollToTop";
+import useFetch from "../../hooks/useFetch";
+import urlGenerator from "../../config/urlGenerator";
 export default function DetailPage() {
   useScrollToTop();
 
-  const [detail, setDetail] = useState([]);
+  // const [detail, setDetail] = useState([]);
   const [cast, setCast] = useState([]);
   const [director, setDirector] = useState([]);
-  const [country, setCountry] = useState("");
+  // const [country, setCountry] = useState("");
   const [trailers, setTrailer] = useState([]);
   const { id, media_type, season_id } = useParams();
   const [similar, setSimilar] = useState([]);
   const [episodes, setEpisodes] = useState([]);
-  // Get similar
 
-  function watchUriGenerate() {
-    let uri = `/watch/${media_type}/${id}`;
-    if (media_type === "movie") return uri;
+  const { data: similarFetchData } = useFetch(
+    urlGenerator.getSimilarFilmUrl(media_type, id)
+  );
+  const { data: detail } = useFetch(
+    urlGenerator.getFilmDetailUrl(media_type, id)
+  );
+  const { data: episodesFetchData } = useFetch(
+    urlGenerator.getSeasonDetailUrl(media_type, id, season_id)
+  );
 
-    if (media_type === "tv") {
-      if (season_id) return `${uri}?season=${season_id}&episode=1`;
-      else return `${uri}?season=${1}&episode=1`;
-    }
-  }
-  async function getSimilar() {
-    const uri = `${process.env.REACT_APP_API_URL}/${media_type}/${id}/similar`;
-    const res = await axios.get(uri, {
-      params: {
-        api_key: process.env.REACT_APP_API_KEY,
-      },
-    });
-    const data = res.data.results;
-    setSimilar(data);
-  }
+  const { data: trailersFetchData } = useFetch(
+    urlGenerator.getTrailerOfFilmUrl(media_type, id)
+  );
 
-  // Get cast
-  async function getCast() {
-    const uri = `${process.env.REACT_APP_API_URL}/${media_type}/${id}/credits`;
-    const res = await axios.get(uri, {
-      params: {
-        api_key: process.env.REACT_APP_API_KEY,
-      },
-    });
-
-    const data = res.data.cast;
-
-    if (media_type === "movie") {
-      const direct = res.data.crew.find((item) => item.job === "Director");
-
-      if (direct) setDirector(direct.name);
-    }
-    setCast(data);
-  }
-
-  // Get film detail
-  async function getDetail() {
-    const uri = `${process.env.REACT_APP_API_URL}/${media_type}/${id}`;
-    const res = await axios.get(uri, {
-      params: {
-        api_key: process.env.REACT_APP_API_KEY,
-      },
-    });
-    const data = res.data;
-    console.log(data);
-    setDetail(data);
-
-    const country = data?.production_countries[0]?.iso_3166_1
-      ? data?.production_countries[0]?.iso_3166_1
-      : "US";
-    setCountry(country);
-  }
-
-  // Get film trailers
-  async function getTrailer() {
-    const uri = `${process.env.REACT_APP_API_URL}/${media_type}/${id}/videos`;
-    const res = await axios.get(uri, {
-      params: {
-        api_key: process.env.REACT_APP_API_KEY,
-      },
-    });
-    const data = res.data.results;
-    setTrailer(data);
-  }
-
-  // Get all sesson episodes
-  async function getEpisodes() {
-    const uri = `${process.env.REACT_APP_API_URL}/${media_type}/${id}/season/${season_id}`;
-    const res = await axios.get(uri, {
-      params: {
-        api_key: process.env.REACT_APP_API_KEY,
-      },
-    });
-    const data = res.data.episodes;
-    setEpisodes(data);
-  }
+  const {
+    // data: { cast },
+    // data: { crew },
+    data: castFetchData,
+  } = useFetch(urlGenerator.getCastOfFilmUrl(media_type, id));
 
   useEffect(() => {
-    getCast();
-    getDetail();
-    getTrailer();
-    if (media_type === "movie") getSimilar();
-    if (media_type === "tv" && season_id) getEpisodes();
-  }, [season_id, id, media_type]);
+    if (similarFetchData !== null) setSimilar(similarFetchData.results);
+  }, [similarFetchData]);
+
+  useEffect(() => {
+    if (episodesFetchData !== null) {
+      setEpisodes(episodesFetchData.episodes);
+    }
+  }, [episodesFetchData]);
+
+  useEffect(() => {
+    if (trailersFetchData !== null) setTrailer(trailersFetchData.results);
+  }, [trailersFetchData]);
+
+  useEffect(() => {
+    if (castFetchData !== null) {
+      setCast(castFetchData.cast);
+      if (media_type === "movie") {
+        const direct = castFetchData.crew.find(
+          (item) => item.job === "Director"
+        );
+
+        if (direct) setDirector(direct.name);
+      }
+    }
+  }, [castFetchData]);
+
+  // function watchUriGenerate() {
+  //   let uri = `/watch/${media_type}/${id}`;
+  //   if (media_type === "movie") return uri;
+
+  //   if (media_type === "tv") {
+  //     if (season_id) return `${uri}?season=${season_id}&episode=1`;
+  //     else return `${uri}?season=${1}&episode=1`;
+  //   }
+  // }
+  // async function getSimilar() {
+  //   const uri = `${process.env.REACT_APP_API_URL}/${media_type}/${id}/similar`;
+  //   const res = await axios.get(uri, {
+  //     params: {
+  //       api_key: process.env.REACT_APP_API_KEY,
+  //     },
+  //   });
+  //   const data = res.data.results;
+  //   setSimilar(data);
+  // }
+
+  // // Get cast
+  // async function getCast() {
+  //   const uri = `${process.env.REACT_APP_API_URL}/${media_type}/${id}/credits`;
+  //   const res = await axios.get(uri, {
+  //     params: {
+  //       api_key: process.env.REACT_APP_API_KEY,
+  //     },
+  //   });
+
+  //   const data = res.data.cast;
+
+  //   if (media_type === "movie") {
+  //     const direct = res.data.crew.find((item) => item.job === "Director");
+
+  //     if (direct) setDirector(direct.name);
+  //   }
+  //   setCast(data);
+  // }
+
+  // // Get film detail
+  // async function getDetail() {
+  //   const uri = `${process.env.REACT_APP_API_URL}/${media_type}/${id}`;
+  //   const res = await axios.get(uri, {
+  //     params: {
+  //       api_key: process.env.REACT_APP_API_KEY,
+  //     },
+  //   });
+  //   const data = res.data;
+  //   console.log(data);
+  //   setDetail(data);
+
+  //   const country = data?.production_countries[0]?.iso_3166_1
+  //     ? data?.production_countries[0]?.iso_3166_1
+  //     : "US";
+  //   setCountry(country);
+  // }
+
+  // // Get film trailers
+  // async function getTrailer() {
+  //   const uri = `${process.env.REACT_APP_API_URL}/${media_type}/${id}/videos`;
+  //   const res = await axios.get(uri, {
+  //     params: {
+  //       api_key: process.env.REACT_APP_API_KEY,
+  //     },
+  //   });
+  //   const data = res.data.results;
+  //   setTrailer(data);
+  // }
+
+  // // Get all sesson episodes
+  // async function getEpisodes() {
+  //   const uri = `${process.env.REACT_APP_API_URL}/${media_type}/${id}/season/${season_id}`;
+  //   const res = await axios.get(uri, {
+  //     params: {
+  //       api_key: process.env.REACT_APP_API_KEY,
+  //     },
+  //   });
+  //   const data = res.data.episodes;
+  //   setEpisodes(data);
+  // }
 
   // useEffect(() => {
-
-  // }, [season_id]);
+  //   getCast();
+  //   getDetail();
+  //   getTrailer();
+  //   if (media_type === "movie") getSimilar();
+  //   if (media_type === "tv" && season_id) getEpisodes();
+  // }, [season_id, id, media_type]);
 
   return (
     detail && (
@@ -144,7 +188,10 @@ export default function DetailPage() {
             </div>
 
             {detail.backdrop_path && detail.poster_path && (
-              <Link to={watchUriGenerate()} className="btn">
+              <Link
+                to={urlGenerator.watchFilmUrl(media_type, id)}
+                className="btn"
+              >
                 <FontAwesomeIcon icon={faPlay}></FontAwesomeIcon>
                 XEM PHIM
               </Link>
@@ -215,7 +262,7 @@ export default function DetailPage() {
                     <a href="#">{detail.networks?.[0]?.name}</a>
                   )}
 
-                  <a href="#">{country}</a>
+                  <a href="#">{detail.production_countries[0]?.iso_3166_1}</a>
                   <a href="#">{detail.release_date ?? detail.first_air_date}</a>
                 </div>
               </div>

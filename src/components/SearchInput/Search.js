@@ -21,7 +21,7 @@ export default function Search({ searchKey }) {
   return (
     <div className="search__input">
       <input
-        value={inputValue}
+        value={inputValue ? inputValue : ""}
         type="text"
         placeholder="Nhập tên phim"
         onChange={(e) => handleInputChange(e)}

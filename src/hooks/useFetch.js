@@ -1,33 +1,35 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 
-function useFetchSeasonDetail(media_type, id, season) {
+function useFetch(url) {
   const [isLoading, setIsLoading] = useState(true);
-  const [seasonDetail, setSeasonDetail] = useState(null);
+  const [data, setData] = useState(null);
 
   useEffect(() => {
-    let uri = `${process.env.REACT_APP_API_URL}/${media_type}/${id}`;
-    if (media_type === "tv") uri += `/season/${season}`;
-    if (!season) return;
+    // let uri = `${process.env.REACT_APP_API_URL}/${media_type}/${id}`;
+    // if (media_type === "tv") uri += `/season/${season}`;
+
+    console.log(url);
+    if (url === null) return;
     (async function fetchData() {
       try {
-        const res = await axios.get(uri, {
+        const res = await axios.get(url, {
           params: {
             api_key: process.env.REACT_APP_API_KEY,
           },
         });
 
         // console.log(res.data);
-        setSeasonDetail(res.data);
+        setData(res.data);
       } catch (e) {
         console.log(e);
       } finally {
         setIsLoading(false);
       }
     })();
-  }, []);
+  }, [url]);
 
-  return { isLoading, seasonDetail };
+  return { isLoading, data };
 }
 
-export default useFetchSeasonDetail;
+export default useFetch;

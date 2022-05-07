@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams, useSearchParams } from "react-router-dom";
-import useFetchDetail from "../../hooks/getFilmDetail";
-import useFetchSeasonDetail from "../../hooks/getSeasonDetail";
+import useFetch from "../../hooks/useFetch";
+// import useFetchSeasonDetail from "../../hooks/getSeasonDetail";
 import "./index.scss";
 import { Link } from "react-router-dom";
 import useScrollToTop from "../../hooks/scrollToTop";
 import { getYear } from "../../lib/dateFormat";
+import urlGenerator from "../../config/urlGenerator";
 export default function WatchPage() {
   useScrollToTop();
   const { id, media_type } = useParams();
@@ -14,9 +15,11 @@ export default function WatchPage() {
   const episode = searchParams.get("episode");
   const [streamUrl, setStreamUrl] = useState("");
 
-  const { data } = useFetchDetail(media_type, id);
+  const { data } = useFetch(urlGenerator.getFilmDetailUrl(media_type, id));
 
-  const { seasonDetail } = useFetchSeasonDetail(media_type, id, season);
+  const { data: seasonDetail } = useFetch(
+    urlGenerator.getSeasonDetailUrl(media_type, id, season)
+  );
 
   useEffect(() => {
     if (media_type === "movie")

@@ -4,14 +4,25 @@ import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 import Search from "../../components/SearchInput/Search";
 import "./index.scss";
 import FilmList from "../../components/FilmList/FilmList";
+import useDebouce from "../../hooks/useDebouce";
 
 export default function SearchPage() {
   const [searchParam] = useSearchParams();
-  const [films, setFilms] = useState([]);
+  // const [films, setFilms] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalResult, setTotalResult] = useState(0);
+  // const [totalResult, setTotalResult] = useState(0);
   const searchKey = searchParam.get("q");
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
+
+  const [
+    films,
+    totalResult,
+    isFetch,
+    isLoading,
+    dispatchSetData,
+    dispatchSetLoading,
+  ] = useDebouce(searchKey, 1000);
+  // const [isFetch, setIsFetch] = useState(false);
 
   async function fetchSearchMovies() {
     const moviesURI = `${process.env.REACT_APP_API_URL}/search/movie`;
@@ -44,26 +55,24 @@ export default function SearchPage() {
     passArray.sort((a, b) => b.popularity - a.popularity);
     const newList = [...films, ...passArray];
 
-    setFilms(() => {
-      return newList;
-    });
+    dispatchSetData(newList);
   }
 
-  function replaceArray(...newArray) {
-    const newList = newArray.flat();
-    // console.log(newList);
-    newList.sort((a, b) => b.popularity - a.popularity);
-    setFilms(() => {
-      return newList;
-    });
-  }
+  // function replaceArray(...newArray) {
+  //   const newList = newArray.flat();
+  //   // console.log(newList);
+  //   newList.sort((a, b) => b.popularity - a.popularity);
+  //   setFilms(() => {
+  //     return newList;
+  //   });
+  // }
 
   //   scroll page
   useEffect(() => {
     if (!searchKey || currentPage === 1) return;
 
     console.log(currentPage);
-    setLoading(true);
+    dispatchSetLoading(true);
     (async function () {
       const moviesData = await fetchSearchMovies();
       const tvsData = await fetchSearchTVs();
@@ -82,36 +91,36 @@ export default function SearchPage() {
     })();
 
     setTimeout(() => {
-      setLoading(false);
+      dispatchSetLoading(false);
     }, 500);
   }, [currentPage]);
 
   //   Change search key
-  useEffect(() => {
-    if (!searchKey) return;
+  // useEffect(() => {
+  //   if (!searchKey) return;
 
-    setLoading(true);
+  //   setLoading(true);
 
-    (async function () {
-      const moviesData = await fetchSearchMovies();
-      const tvsData = await fetchSearchTVs();
+  //   (async function () {
+  //     const moviesData = await fetchSearchMovies();
+  //     const tvsData = await fetchSearchTVs();
 
-      const moviesResult = moviesData.results.map((movie) => {
-        return { ...movie, media_type: "movie" };
-      });
+  //     const moviesResult = moviesData.results.map((movie) => {
+  //       return { ...movie, media_type: "movie" };
+  //     });
 
-      const tvsResult = tvsData.results.map((tv) => {
-        return { ...tv, media_type: "tv" };
-      });
+  //     const tvsResult = tvsData.results.map((tv) => {
+  //       return { ...tv, media_type: "tv" };
+  //     });
 
-      replaceArray([...moviesResult, ...tvsResult]);
-      setTotalResult(moviesData.total_pages + tvsData.total_pages);
-    })();
+  //     replaceArray([...moviesResult, ...tvsResult]);
+  //     setTotalResult(moviesData.total_pages + tvsData.total_pages);
+  //   })();
 
-    setTimeout(() => {
-      setLoading(false);
-    }, 500);
-  }, [searchKey]);
+  //   setTimeout(() => {
+  //     setLoading(false);
+  //   }, 500);
+  // }, [searchKey]);
 
   function handleClick() {
     setCurrentPage((page) => page + 1);
@@ -120,7 +129,7 @@ export default function SearchPage() {
     <div className="search ">
       <div className="container">
         <Search searchKey={searchKey} />
-        {!loading && films.length != 0 && (
+        {!isLoading && films.length != 0 && (
           <>
             <FilmList films={films} />
 
@@ -130,11 +139,13 @@ export default function SearchPage() {
           </>
         )}
 
-        {!loading && films.length === 0 && <h1>Không tìm thấy phim</h1>}
+        {isFetch && !isLoading && films.length === 0 && (
+          <h1>Không tìm thấy phim</h1>
+        )}
 
-        {loading && films.length === 0 && <h1>Loading...</h1>}
+        {isLoading && films.length === 0 && <h1>Loading...</h1>}
 
-        {loading && films.length && (
+        {isLoading && films.length && (
           <>
             <FilmList films={films} />
             <h1>Loading...</h1>
