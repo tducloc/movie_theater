@@ -1,0 +1,11 @@
+.filter {
+  background-color: rgba(14, 39, 64, 0.45);
+  .filter__list {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr) 100px;
+    padding: 1rem 1.6rem;
+    justify-items: end;
+    grid-column-gap: 2rem;
+  }
+}

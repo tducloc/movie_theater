@@ -6,6 +6,7 @@ import Header from "./components/Header/Header.js";
 import Footer from "./components/Footer/Footer.js";
 import Watch from "./pages/watch";
 import Search from "./pages/search";
+import TypePage from "./pages/type";
 function App() {
   return (
     <Router>
@@ -27,6 +28,9 @@ function App() {
 
           {/* Search page */}
           <Route path="/search" element={<Search />}></Route>
+
+          {/* Type page */}
+          <Route path="/type/:media_type" element={<TypePage />}></Route>
         </Routes>
         <Footer />
       </div>

@@ -41,15 +41,11 @@ export default function Header() {
           </li>
 
           <li>
-            <a href="/">Phim lẻ</a>
+            <Link to="/type/movie">Phim lẻ</Link>
           </li>
 
           <li>
-            <a href="/">Phim mới</a>
-          </li>
-
-          <li>
-            <a href="/">FAQ</a>
+            <Link to="/type/tv">Phim bộ</Link>
           </li>
         </ul>
       </div>

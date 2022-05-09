@@ -41,4 +41,16 @@ export default {
   getSearchFilmUrl: (media_type) => {
     return `${process.env.REACT_APP_API_URL}/search/${media_type}`;
   },
+
+  getAllCountriesUrl: () => {
+    return `${process.env.REACT_APP_API_URL}/configuration/languages`;
+  },
+
+  getGenresUrl: (media_type) => {
+    return `${process.env.REACT_APP_API_URL}/genre/${media_type}/list`;
+  },
+
+  getDiscoverUrl: (media_type) => {
+    return `${process.env.REACT_APP_API_URL}/discover/${media_type}`;
+  },
 };

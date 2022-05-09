@@ -5,6 +5,7 @@ import Search from "../../components/SearchInput/Search";
 import "./index.scss";
 import FilmList from "../../components/FilmList/FilmList";
 import useDebouce from "../../hooks/useDebouce";
+import FetchMoreButton from "../../components/FetchMoreButton/FetchMoreButton";
 
 export default function SearchPage() {
   const [searchParam] = useSearchParams();
@@ -134,7 +135,7 @@ export default function SearchPage() {
             <FilmList films={films} />
 
             {films.length < totalResult && (
-              <button onClick={handleClick}>Xem thêm</button>
+              <FetchMoreButton handleFunction={handleClick} />
             )}
           </>
         )}
