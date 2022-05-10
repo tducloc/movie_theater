@@ -15,10 +15,15 @@ export default function TypePage() {
   const [totalResult, setTotalResult] = useState(0);
   const [loading, setLoading] = useState(false);
   const [isFetch, setIsFetch] = useState(false);
+  const [view, setView] = useState(1);
 
   function handleClick() {
     setCurrentPage((page) => page + 1);
   }
+
+  useEffect(() => {
+    console.log(view);
+  }, [view]);
 
   useEffect(() => {
     if (page === 1) return;
@@ -87,10 +92,10 @@ export default function TypePage() {
         {media_type === "tv" ? "Phim bộ" : "Phim lẻ"}
       </h1>
 
-      <Filter media_type={media_type} />
+      <Filter media_type={media_type} setView={setView} view={view} />
       {isFetch && !loading && data.length > 0 && (
         <section>
-          <FilmList films={data} media_type={media_type} />
+          <FilmList films={data} media_type={media_type} view={view} />
 
           {data.length < totalResult && (
             <FetchMoreButton handleFunction={handleClick} />
@@ -104,7 +109,7 @@ export default function TypePage() {
       {loading && data.length === 0 && <h1 className="result">Loading...</h1>}
       {loading && data.length && (
         <section>
-          <FilmList films={data} />
+          <FilmList films={data} view={view} media_type={media_type} />
           <h1 className="result">Loading...</h1>
         </section>
       )}

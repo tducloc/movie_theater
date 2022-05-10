@@ -1,4 +1,4 @@
-.film__link {
+.film__view--1 {
   display: block;
   .film__img {
     img {
@@ -14,5 +14,59 @@
     font-size: 1.6rem;
     text-align: center;
     margin-top: 1rem;
+  }
+}
+
+.film__view--2 {
+  display: grid;
+  grid-template-columns: 15% 85%;
+  margin-bottom: 2rem;
+  .film__poster {
+    margin-right: 2rem;
+
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+  }
+
+  .film__info {
+    color: #b5b5b5;
+    font-size: 1.6rem;
+
+    .film__info-heading {
+      display: flex;
+      justify-content: space-between;
+      .film__info-title {
+        color: #fff;
+        font-weight: bold;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      .film__info-title--no-bold-dark-color {
+        color: #7a7a7a;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      span {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+
+        svg {
+          width: 30px;
+          height: 30px;
+        }
+      }
+    }
+    .film__info-overview {
+      margin-top: 4rem;
+    }
   }
 }

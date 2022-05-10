@@ -6,7 +6,7 @@ import "./Filter.scss";
 import FilterItem from "./FilterItem/FilterItem";
 import { useSearchParams } from "react-router-dom";
 
-export default function Filter({ media_type }) {
+export default function Filter({ media_type, view, setView }) {
   //   const [filterList, setFilterList] = useState([]);
 
   const [params, setParams] = useSearchParams();
@@ -136,6 +136,8 @@ export default function Filter({ media_type }) {
           data={[0, 1]}
           setQuery={setQuery}
           initData={params.get("view")}
+          view={view}
+          setView={setView}
         />
       </ul>
     </div>
