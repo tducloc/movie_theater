@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
-import Filter from "../../components/FIlter/Filter";
+import Filter from "../../components/Filter/Filter";
 import "./index.scss";
 import FilmList from "../../components/FilmList/FilmList";
 import axios from "axios";
@@ -38,7 +38,7 @@ export default function TypePage() {
       setData((oldData) => [...oldData, ...res.data.results]);
       setLoading(false);
     })();
-  }, [page]);
+  }, [page, fetchParams, media_type]);
 
   useEffect(() => {
     const params = { api_key: process.env.REACT_APP_API_KEY, page: 1 };

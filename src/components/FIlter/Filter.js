@@ -40,7 +40,7 @@ export default function Filter({ media_type, view, setView }) {
     }
 
     setParams(currentParams);
-  }, [query]);
+  }, [query, setParams]);
 
   const year = (function () {
     const arr = [];

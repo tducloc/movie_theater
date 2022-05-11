@@ -69,7 +69,7 @@ export default function FilterItem({
     // setParams(currentParams.key);
     // console.log("abc");
     // console.log(currentParams.entries());
-  }, [initOption]);
+  }, [initOption, setQuery, label]);
 
   return (
     data && (
@@ -110,6 +110,7 @@ export default function FilterItem({
                     {item.name}
                   </option>
                 );
+              return null;
             })}
           </select>
         )}
