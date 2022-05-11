@@ -59,4 +59,8 @@ export default {
       ? process.env.REACT_APP_API_IMAGE_PATH + url
       : "https://i.pinimg.com/originals/fd/2d/9f/fd2d9f4640394679d65967c13ec0de2c.jpg";
   },
+
+  getTrendingUrl: (media_type, time) => {
+    return `${process.env.REACT_APP_API_URL}/trending/${media_type}/${time}`;
+  },
 };

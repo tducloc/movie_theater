@@ -37,7 +37,7 @@ export default function Header() {
           </li>
 
           <li>
-            <a href="/">Phim hot</a>
+            <Link to="/top">Phim hot</Link>
           </li>
 
           <li>

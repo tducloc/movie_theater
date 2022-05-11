@@ -7,6 +7,7 @@ import Footer from "./components/Footer/Footer.js";
 import Watch from "./pages/watch";
 import Search from "./pages/search";
 import TypePage from "./pages/type";
+import TrendingPage from "./pages/top";
 function App() {
   return (
     <Router>
@@ -31,6 +32,9 @@ function App() {
 
           {/* Type page */}
           <Route path="/type/:media_type" element={<TypePage />}></Route>
+
+          {/* Hot page */}
+          <Route path="/top" element={<TrendingPage />}></Route>
         </Routes>
         <Footer />
       </div>
