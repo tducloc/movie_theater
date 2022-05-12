@@ -43,7 +43,7 @@ export default function WatchPage() {
           allowFullScreen
         ></iframe>
       </div>
-      {console.log(data)})
+      {console.log(data)}
       {data && (
         <div className="info container">
           {media_type === "tv" && (
