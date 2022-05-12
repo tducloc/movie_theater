@@ -1,3 +1,5 @@
+@import "../variable.scss";
+
 .container {
   .film__section {
     margin-top: 6rem;
@@ -11,6 +13,11 @@
       border-bottom: 1px solid #1b3c5d;
       padding-bottom: 0.4rem;
       margin-bottom: 1.6rem;
+
+      @include mobile-tablet {
+        font-size: 3rem;
+        text-align: center;
+      }
     }
   }
 }

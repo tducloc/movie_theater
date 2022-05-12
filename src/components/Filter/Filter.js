@@ -19,11 +19,17 @@ export default function Filter({ media_type, view, setView }) {
     sort: "",
   });
 
+  const [firstLoading, setFirstLoading] = useState(true);
+
   useEffect(() => {
     const currentParams = new URLSearchParams(window.location.search);
-    const isFirstTimeLoad = Object.keys(query).every((key) => !query[key]);
 
-    if (isFirstTimeLoad) return;
+    if (firstLoading) {
+      console.log("first loading...");
+      setFirstLoading(false);
+      return;
+    }
+
     for (let key in query) {
       if (currentParams.has(key)) {
         currentParams.delete(key);
@@ -31,16 +37,23 @@ export default function Filter({ media_type, view, setView }) {
 
       if (query[key]) {
         currentParams.set(key, query[key]);
-        // } else {
-        //   if (currentParams.has(key)) {
-        //     currentParams.delete(key);
-        //   }
-        // }
       }
     }
 
     setParams(currentParams);
   }, [query, setParams]);
+
+  useEffect(() => {
+    const currentParams = new URLSearchParams(window.location.search);
+
+    console.log("first init");
+    let loadQuery = { ...query };
+    for (let key of currentParams.keys()) {
+      loadQuery = { ...loadQuery, [key]: currentParams.get(key) };
+    }
+
+    setQuery(loadQuery);
+  }, []);
 
   const year = (function () {
     const arr = [];
@@ -108,13 +121,21 @@ export default function Filter({ media_type, view, setView }) {
           type="select"
           setQuery={setQuery}
           initData={params.get("genre")}
+          query={query}
         />
         <FilterItem
           label={"Country"}
-          data={countries}
+          data={
+            countries
+              ? [...countries].sort((a, b) =>
+                  a.english_name.localeCompare(b.english_name)
+                )
+              : ""
+          }
           type="select"
           setQuery={setQuery}
           initData={params.get("country")}
+          query={query}
         />
         <FilterItem
           label={"Year"}
@@ -122,6 +143,7 @@ export default function Filter({ media_type, view, setView }) {
           type="select"
           setQuery={setQuery}
           initData={params.get("year")}
+          query={query}
         />
         <FilterItem
           label={"Sort by"}
@@ -129,6 +151,7 @@ export default function Filter({ media_type, view, setView }) {
           type="select"
           setQuery={setQuery}
           initData={params.get("sort")}
+          query={query}
         />
         <FilterItem
           label={"View"}

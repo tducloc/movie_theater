@@ -1,4 +1,10 @@
+@import "../../../variable.scss";
+
 .filter__item {
+  @include mobile-tablet {
+    margin-top: 2rem;
+  }
+
   //   display: flex;
   font-size: 1.6rem;
   color: #fff;

@@ -1,3 +1,5 @@
+@import "../../variable.scss";
+
 .stream {
   margin-top: 55px;
   .player {
@@ -14,6 +16,10 @@
       font-size: 4rem;
       color: #fff;
       font-weight: 400;
+
+      @include mobile-tablet {
+        font-size: 2rem;
+      }
     }
 
     p {
@@ -88,7 +94,14 @@
         padding: 1rem 1.2rem;
         cursor: pointer;
         display: block;
+        margin: 2rem;
         margin-left: auto;
+        margin-right: 0;
+
+        @include mobile-sm {
+          margin: auto;
+          width: 100%;
+        }
 
         &:hover {
           color: red;

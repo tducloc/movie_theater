@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./FilterItem.scss";
 export default function FilterItem({
-  media_type,
   label,
   data,
   type,
@@ -40,11 +39,6 @@ export default function FilterItem({
   function handleOnChange(e) {
     // if(label === "Genres")
     setInitOption(e.target.value);
-  }
-
-  useEffect(() => {
-    // if (!initOption) return;
-
     let query = "genre";
     switch (label) {
       case "Year":
@@ -57,19 +51,24 @@ export default function FilterItem({
         query = "sort";
         break;
 
+      case "Genres":
+        query = "genre";
+        break;
       default:
         break;
     }
 
     setQuery((oldQuery) => {
-      return { ...oldQuery, [query]: initOption };
+      return { ...oldQuery, [query]: e.target.value };
     });
-    // if (initOption) currentParams.set(query, initOption);
-    // else currentParams.delete(query);
-    // setParams(currentParams.key);
-    // console.log("abc");
-    // console.log(currentParams.entries());
-  }, [initOption, setQuery, label]);
+  }
+
+  // useEffect(() => {
+  //   // if (!initOption) return;
+
+  //   // console.log(initOption);
+
+  // }, [initOption]);
 
   return (
     data && (

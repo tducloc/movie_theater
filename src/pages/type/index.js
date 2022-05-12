@@ -22,10 +22,6 @@ export default function TypePage() {
   }
 
   useEffect(() => {
-    console.log(view);
-  }, [view]);
-
-  useEffect(() => {
     if (page === 1) return;
 
     (async function () {
@@ -44,7 +40,7 @@ export default function TypePage() {
     const params = { api_key: process.env.REACT_APP_API_KEY, page: 1 };
     for (let entry of queryParams.entries()) {
       let query = "";
-      const data = entry[1];
+      let data = entry[1];
       switch (entry[0]) {
         case "genre":
           query = "with_genres";
@@ -55,6 +51,7 @@ export default function TypePage() {
         case "year":
           if (data < 0) {
             query = "primary_release_date.lte";
+            data = -data;
           } else {
             query = "primary_release_year";
           }
@@ -68,8 +65,10 @@ export default function TypePage() {
           break;
       }
 
-      params[query] = entry[1];
+      params[query] = data;
     }
+
+    console.log(params);
 
     (async function () {
       setLoading(true);

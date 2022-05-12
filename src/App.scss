@@ -1,7 +1,21 @@
 @use "./index.scss";
 
+@import "./variable.scss";
+
+.App {
+  overflow: hidden;
+}
+
 .container {
   max-width: 1440px;
   margin: 0 auto;
   padding: 1rem;
+
+  @include tablet {
+    width: 100%;
+  }
+
+  @include mobile-sm {
+    width: 100%;
+  }
 }
