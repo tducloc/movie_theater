@@ -22,6 +22,15 @@ export default function Filter({ media_type, view, setView }) {
   const [firstLoading, setFirstLoading] = useState(true);
 
   useEffect(() => {
+    (async function () {
+      const data = await fetchGenres(media_type);
+      setGenres(data);
+    })();
+
+    setQuery({ genre: "", country: "", year: "", sort: "" });
+  }, [media_type]);
+
+  useEffect(() => {
     const currentParams = new URLSearchParams(window.location.search);
 
     if (firstLoading) {
@@ -105,12 +114,6 @@ export default function Filter({ media_type, view, setView }) {
     });
     return res.data.genres;
   }
-  useEffect(() => {
-    (async function () {
-      const data = await fetchGenres(media_type);
-      setGenres(data);
-    })();
-  }, [media_type]);
 
   return (
     <div className="filter">
