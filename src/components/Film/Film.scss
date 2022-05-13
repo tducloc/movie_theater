@@ -6,10 +6,10 @@
     img {
       width: 100%;
       height: auto;
-
-      // @include mobile-sm {
-      //   object-fit: contain;
-      // }
+      @include mobile-tablet {
+        object-fit: contain;
+        height: 350px;
+      }
     }
   }
 

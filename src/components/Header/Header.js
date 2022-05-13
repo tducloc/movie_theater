@@ -1,16 +1,21 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faBars } from "@fortawesome/free-solid-svg-icons";
 import "./Header.scss";
 export default function Header() {
+  const url = useLocation();
   useEffect(() => {
     const header = document.querySelector(".header");
     const headerNavController = document.querySelector(".header__nav-icon");
     const headerNav = document.querySelector(".header__nav");
     const headerNavLayout = document.querySelector(".header__nav-layout");
 
-    const app = document.querySelector(".App");
+    const headerNavLink = headerNav.querySelectorAll(".header__nav-list a");
+
+    console.log(headerNavLink);
+
+    // const app = document.querySelector(".App");
     window.onscroll = function (e) {
       const height = header.offsetHeight;
 
@@ -24,20 +29,20 @@ export default function Header() {
       }
     };
 
-    headerNavController.onclick = function (e) {
+    function openNav() {
       headerNav.classList.add("header__nav--active");
-
-      const width = headerNav.offsetWidth;
-      header.style.marginLeft = width + "px";
-      app.style.marginLeft = width + "px";
-    };
-
-    headerNavLayout.onclick = function (e) {
+    }
+    function closeNav() {
       headerNav.classList.remove("header__nav--active");
-      header.style.marginLeft = 0;
+    }
 
-      app.style.marginLeft = 0;
-    };
+    headerNavController.onclick = openNav;
+
+    headerNavLayout.onclick = closeNav;
+
+    Array.from(headerNavLink).forEach((item, index) => {
+      item.onclick = closeNav;
+    });
 
     return () => {
       headerNavController.onclick = undefined;
@@ -56,22 +61,50 @@ export default function Header() {
 
           <ul className="header__nav-list">
             <li>
-              <Link to="/search">
+              <Link
+                to="/search"
+                className={
+                  url.pathname === "/search" ? "header__nav-link--active" : ""
+                }
+              >
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
                 <p>Tìm kiếm</p>
               </Link>
             </li>
 
             <li>
-              <Link to="/top">Phim hot</Link>
+              <Link
+                to="/top"
+                className={
+                  url.pathname === "/top" ? "header__nav-link--active" : ""
+                }
+              >
+                Phim hot
+              </Link>
             </li>
 
             <li>
-              <Link to="/type/movie">Phim lẻ</Link>
+              <Link
+                to="/type/movie"
+                className={
+                  url.pathname === "/type/movie"
+                    ? "header__nav-link--active"
+                    : ""
+                }
+              >
+                Phim lẻ
+              </Link>
             </li>
 
             <li>
-              <Link to="/type/tv">Phim bộ</Link>
+              <Link
+                to="/type/tv"
+                className={
+                  url.pathname === "/type/tv" ? "header__nav-link--active" : ""
+                }
+              >
+                Phim bộ
+              </Link>
             </li>
           </ul>
         </div>
@@ -110,13 +143,43 @@ export default function Header() {
         </div>
         <ul className="header__nav-list">
           <li>
-            <Link to="/top">Phim hot</Link>
+            <Link
+              to="/"
+              className={url.pathname === "/" ? "header__nav-link--active" : ""}
+            >
+              Trang chủ
+            </Link>
+          </li>
+
+          <li>
+            <Link
+              to="/top"
+              className={
+                url.pathname === "/top" ? "header__nav-link--active" : ""
+              }
+            >
+              Phim hot
+            </Link>
           </li>
           <li>
-            <Link to="/type/movie">Phim lẻ</Link>
+            <Link
+              to="/type/movie"
+              className={
+                url.pathname === "/type/movie" ? "header__nav-link--active" : ""
+              }
+            >
+              Phim lẻ
+            </Link>
           </li>
           <li>
-            <Link to="/type/tv">Phim bộ</Link>
+            <Link
+              to="/type/tv"
+              className={
+                url.pathname === "/type/tv" ? "header__nav-link--active" : ""
+              }
+            >
+              Phim bộ
+            </Link>
           </li>
         </ul>
       </div>

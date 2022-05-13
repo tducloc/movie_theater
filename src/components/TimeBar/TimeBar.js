@@ -14,6 +14,10 @@ export default function TimeBar({ activeValue, setChoice }) {
       activeBar.style.width = active.offsetWidth + "px";
     }
 
+    window.addEventListener("resize", function () {
+      updateActiveBar();
+    });
+
     updateActiveBar();
 
     function handleClick(e, index) {
@@ -25,12 +29,17 @@ export default function TimeBar({ activeValue, setChoice }) {
       updateActiveBar();
     }
 
-    Array.from(items).forEach(
-      (item, index) => (item.onclick = (e) => handleClick(e, index))
+    Array.from(items).forEach((item, index) =>
+      item.addEventListener("click", (e) => handleClick(e, index))
     );
 
     return () => {
-      Array.from(items).forEach((item, index) => (item.onclick = undefined));
+      Array.from(items).forEach((item, index) =>
+        item.removeEventListener("click", (e) => handleClick(e, index))
+      );
+      window.removeEventListener("resize", function () {
+        updateActiveBar();
+      });
     };
   }, []);
 
