@@ -55,7 +55,7 @@ export default function HoriScroll({ items, type }) {
 
       const itemsLength = items.length;
       const inVisibleItem = reverse.find((item, index) => {
-        if (!isVisible(item) && itemsLength - 1 - index < lastIndex) {
+        if (!isVisible(item, list) && itemsLength - 1 - index < lastIndex) {
           setLastIndex(itemsLength - 1 - index);
           return true;
         }
