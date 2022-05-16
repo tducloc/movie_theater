@@ -9,30 +9,5 @@
     align-items: center;
     gap: 2rem;
     height: 100%;
-    .timeBar__item {
-      color: #fff;
-      font-size: 1.6rem;
-      padding: 1rem 0;
-      flex: 1;
-      overflow: hidden;
-      cursor: pointer;
-      font-weight: 600;
-      height: 100%;
-      text-align: center;
-      max-width: 200px;
-    }
-
-    .timeBar__item.timeBar__item--active {
-      color: #3f51b5;
-    }
-  }
-
-  .active-bar {
-    height: 2px;
-    position: absolute;
-    bottom: 0;
-    width: 200px;
-    background-color: #3f51b5;
-    transition: all 0.2s ease;
   }
 }

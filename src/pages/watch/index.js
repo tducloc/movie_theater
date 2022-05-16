@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useParams, useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
-// import useFetchSeasonDetail from "../../hooks/getSeasonDetail";
 import "./index.scss";
 import { Link } from "react-router-dom";
 import useScrollToTop from "../../hooks/scrollToTop";
-import { getYear } from "../../lib/dateFormat";
+import { getYear } from "../../lib/library";
 import urlGenerator from "../../config/urlGenerator";
 export default function WatchPage() {
   useScrollToTop();

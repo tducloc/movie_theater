@@ -2,10 +2,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 120px;
   text-align: center;
   flex-grow: 1;
   flex-basis: 0;
+  width: 165px;
   .actor-img {
     img {
       width: 120px;
@@ -22,7 +22,7 @@
       color: #fff;
       font-size: 1.6rem;
       font-weight: bold;
-      white-space: nowrap;
+      // white-space: nowrap;
 
       &:hover {
         text-decoration: underline;

@@ -1,6 +1,6 @@
 import React from "react";
 import "./Season.scss";
-import { getYear } from "../../lib/dateFormat";
+import { getYear } from "../../lib/library";
 import { Link } from "react-router-dom";
 export default function Season({ seasons, id, filmName }) {
   return (

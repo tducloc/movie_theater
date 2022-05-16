@@ -5,10 +5,9 @@ import useFetch from "../../hooks/useFetch";
 import "./Filter.scss";
 import FilterItem from "./FilterItem/FilterItem";
 import { useSearchParams } from "react-router-dom";
+import { year, sortBy } from "../../config/componentVariable";
 
 export default function Filter({ media_type, view, setView }) {
-  //   const [filterList, setFilterList] = useState([]);
-
   const [params, setParams] = useSearchParams();
 
   const [genres, setGenres] = useState([]);
@@ -18,8 +17,62 @@ export default function Filter({ media_type, view, setView }) {
     year: "",
     sort: "",
   });
+  const { data: countries } = useFetch(urlGenerator.getAllCountriesUrl());
 
   const [firstLoading, setFirstLoading] = useState(true);
+
+  const filterItems = [
+    {
+      label: "Genres",
+      data: genres,
+      type: "select",
+      setQuery: setQuery,
+      initData: params.get("genre"),
+      query,
+    },
+
+    {
+      label: "Country",
+      data: countries
+        ? [...countries].sort((a, b) =>
+            a.english_name.localeCompare(b.english_name)
+          )
+        : "",
+      type: "select",
+      setQuery: setQuery,
+      initData: params.get("country"),
+      query,
+    },
+
+    {
+      label: "Year",
+      data: year,
+      type: "select",
+      setQuery: setQuery,
+      initData: params.get("year"),
+      query,
+    },
+
+    {
+      label: "Sort by",
+      data: sortBy,
+      type: "select",
+      setQuery: { setQuery },
+      initData: params.get("sort"),
+      query,
+    },
+
+    {
+      label: "View",
+      data: [0, 1],
+      type: "view",
+      setQuery: { setQuery },
+      initData: params.get("view"),
+      query,
+      view,
+      setView,
+    },
+  ];
 
   useEffect(() => {
     (async function () {
@@ -64,48 +117,6 @@ export default function Filter({ media_type, view, setView }) {
     setQuery(loadQuery);
   }, []);
 
-  const year = (function () {
-    const arr = [];
-    const now = new Date();
-    let startYear = now.getFullYear();
-
-    for (let i = 0; i < 8; i++) {
-      const prevYear = startYear--;
-      arr.push(prevYear);
-    }
-    arr.push(startYear);
-
-    arr.push(-startYear);
-    return arr;
-  })();
-  const { data: countries } = useFetch(urlGenerator.getAllCountriesUrl());
-  const sortBy = [
-    {
-      id: "popularity_desc",
-      name: "Popularity giảm dần",
-      value: "popularity.desc",
-    },
-    {
-      id: "popularity_asc",
-      name: "Popularity tăng dần",
-      value: "popularity.asc",
-    },
-
-    {
-      id: "releaseDate_desc",
-      name: "Release date giảm dần",
-      value: "release_date.desc",
-    },
-    {
-      id: "releaseDate_asc",
-      name: "Release date tăng dần",
-      value: "release_date.asc",
-    },
-
-    { id: "vote_desc", name: "Vote giảm dần", value: "vote_average.desc" },
-    { id: "vote_asc", name: "Vote tăng dần", value: "vote_average.asc" },
-  ];
-
   async function fetchGenres(media_type) {
     const res = await axios.get(urlGenerator.getGenresUrl(media_type), {
       params: {
@@ -118,53 +129,19 @@ export default function Filter({ media_type, view, setView }) {
   return (
     <div className="filter">
       <ul className="filter__list">
-        <FilterItem
-          label={"Genres"}
-          data={genres}
-          type="select"
-          setQuery={setQuery}
-          initData={params.get("genre")}
-          query={query}
-        />
-        <FilterItem
-          label={"Country"}
-          data={
-            countries
-              ? [...countries].sort((a, b) =>
-                  a.english_name.localeCompare(b.english_name)
-                )
-              : ""
-          }
-          type="select"
-          setQuery={setQuery}
-          initData={params.get("country")}
-          query={query}
-        />
-        <FilterItem
-          label={"Year"}
-          data={year}
-          type="select"
-          setQuery={setQuery}
-          initData={params.get("year")}
-          query={query}
-        />
-        <FilterItem
-          label={"Sort by"}
-          data={sortBy}
-          type="select"
-          setQuery={setQuery}
-          initData={params.get("sort")}
-          query={query}
-        />
-        <FilterItem
-          label={"View"}
-          type="view"
-          data={[0, 1]}
-          setQuery={setQuery}
-          initData={params.get("view")}
-          view={view}
-          setView={setView}
-        />
+        {filterItems.map((item) => (
+          <FilterItem
+            key={item.label}
+            label={item.label}
+            data={item.data}
+            type={item.type}
+            setQuery={setQuery}
+            initData={item.initData}
+            query={query}
+            view={item?.view}
+            setView={item?.setView}
+          />
+        ))}
       </ul>
     </div>
   );

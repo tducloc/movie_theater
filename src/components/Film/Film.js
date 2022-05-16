@@ -2,7 +2,7 @@ import React from "react";
 import "./Film.scss";
 import { Link } from "react-router-dom";
 import urlGenerator from "../../config/urlGenerator";
-import { getYear } from "../../lib/dateFormat";
+import { getYear } from "../../lib/library";
 export default function Film({ film, media_type, view }) {
   return view !== 2 ? (
     <Link to={`/${media_type}/detail/${film.id}`} className="film__view--1">

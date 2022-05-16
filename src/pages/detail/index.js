@@ -14,10 +14,8 @@ import urlGenerator from "../../config/urlGenerator";
 export default function DetailPage() {
   useScrollToTop();
 
-  // const [detail, setDetail] = useState([]);
   const [cast, setCast] = useState([]);
   const [director, setDirector] = useState([]);
-  // const [country, setCountry] = useState("");
   const [trailers, setTrailer] = useState([]);
   const { id, media_type, season_id } = useParams();
   const [similar, setSimilar] = useState([]);
@@ -69,95 +67,6 @@ export default function DetailPage() {
       }
     }
   }, [castFetchData]);
-
-  // function watchUriGenerate() {
-  //   let uri = `/watch/${media_type}/${id}`;
-  //   if (media_type === "movie") return uri;
-
-  //   if (media_type === "tv") {
-  //     if (season_id) return `${uri}?season=${season_id}&episode=1`;
-  //     else return `${uri}?season=${1}&episode=1`;
-  //   }
-  // }
-  // async function getSimilar() {
-  //   const uri = `${process.env.REACT_APP_API_URL}/${media_type}/${id}/similar`;
-  //   const res = await axios.get(uri, {
-  //     params: {
-  //       api_key: process.env.REACT_APP_API_KEY,
-  //     },
-  //   });
-  //   const data = res.data.results;
-  //   setSimilar(data);
-  // }
-
-  // // Get cast
-  // async function getCast() {
-  //   const uri = `${process.env.REACT_APP_API_URL}/${media_type}/${id}/credits`;
-  //   const res = await axios.get(uri, {
-  //     params: {
-  //       api_key: process.env.REACT_APP_API_KEY,
-  //     },
-  //   });
-
-  //   const data = res.data.cast;
-
-  //   if (media_type === "movie") {
-  //     const direct = res.data.crew.find((item) => item.job === "Director");
-
-  //     if (direct) setDirector(direct.name);
-  //   }
-  //   setCast(data);
-  // }
-
-  // // Get film detail
-  // async function getDetail() {
-  //   const uri = `${process.env.REACT_APP_API_URL}/${media_type}/${id}`;
-  //   const res = await axios.get(uri, {
-  //     params: {
-  //       api_key: process.env.REACT_APP_API_KEY,
-  //     },
-  //   });
-  //   const data = res.data;
-  //   console.log(data);
-  //   setDetail(data);
-
-  //   const country = data?.production_countries[0]?.iso_3166_1
-  //     ? data?.production_countries[0]?.iso_3166_1
-  //     : "US";
-  //   setCountry(country);
-  // }
-
-  // // Get film trailers
-  // async function getTrailer() {
-  //   const uri = `${process.env.REACT_APP_API_URL}/${media_type}/${id}/videos`;
-  //   const res = await axios.get(uri, {
-  //     params: {
-  //       api_key: process.env.REACT_APP_API_KEY,
-  //     },
-  //   });
-  //   const data = res.data.results;
-  //   setTrailer(data);
-  // }
-
-  // // Get all sesson episodes
-  // async function getEpisodes() {
-  //   const uri = `${process.env.REACT_APP_API_URL}/${media_type}/${id}/season/${season_id}`;
-  //   const res = await axios.get(uri, {
-  //     params: {
-  //       api_key: process.env.REACT_APP_API_KEY,
-  //     },
-  //   });
-  //   const data = res.data.episodes;
-  //   setEpisodes(data);
-  // }
-
-  // useEffect(() => {
-  //   getCast();
-  //   getDetail();
-  //   getTrailer();
-  //   if (media_type === "movie") getSimilar();
-  //   if (media_type === "tv" && season_id) getEpisodes();
-  // }, [season_id, id, media_type]);
 
   return (
     detail && (

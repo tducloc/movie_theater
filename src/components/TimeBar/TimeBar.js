@@ -1,71 +1,57 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./TimeBar.scss";
+import TimeItem from "./TimeItem/TimeItem";
+import { timeItems } from "../../config/componentVariable";
+import { v4 as uuidv4 } from "uuid";
+import ActiveBar from "./ActiveBar/ActiveBar";
 export default function TimeBar({ activeValue, setChoice }) {
   const ref = useRef(null);
 
+  const [activeItemWidth, setActiveItemWidth] = useState(0);
+  const [activeOffSetLeft, setActiveOffSetLeft] = useState(0);
+
+  function updateActiveBar(offsetLeft, offsetWidth) {
+    setActiveItemWidth(offsetWidth);
+    setActiveOffSetLeft(offsetLeft);
+  }
+
+  function _handleWindowResize() {
+    const items = ref.current.children;
+    const activeChild = items[activeValue];
+    if (activeChild)
+      updateActiveBar(activeChild.offsetLeft, activeChild.offsetWidth);
+  }
+
+  function handleClick(element, index) {
+    const activeElement = element;
+    setChoice(index);
+    setActiveItemWidth(activeElement.offsetWidth);
+    setActiveOffSetLeft(activeElement.offsetLeft);
+  }
+
   useEffect(() => {
-    const items = ref?.current.querySelectorAll(".timeBar__item");
-    let active = ref?.current.querySelector(".timeBar__item--active");
-    const activeBar = ref?.current.querySelector(".active-bar");
-
-    console.log(items, active, activeBar);
-    function updateActiveBar() {
-      activeBar.style.left = active.offsetLeft + "px";
-      activeBar.style.width = active.offsetWidth + "px";
-    }
-
-    window.addEventListener("resize", function () {
-      updateActiveBar();
-    });
-
-    updateActiveBar();
-
-    function handleClick(e, index) {
-      const clickTarget = e.target;
-      clickTarget.classList.add("itemBar__item--active");
-      active.classList.remove("itemBar__item--active");
-      setChoice(index);
-      active = clickTarget;
-      updateActiveBar();
-    }
-
-    Array.from(items).forEach((item, index) =>
-      item.addEventListener("click", (e) => handleClick(e, index))
-    );
+    window.addEventListener("resize", _handleWindowResize);
 
     return () => {
-      Array.from(items).forEach((item, index) =>
-        item.removeEventListener("click", (e) => handleClick(e, index))
-      );
-      window.removeEventListener("resize", function () {
-        updateActiveBar();
-      });
+      window.removeEventListener("resize", _handleWindowResize);
     };
   }, []);
 
   return (
-    <div className="timeBar" ref={ref}>
-      <ul className="timeBar__list">
-        <li
-          className={
-            activeValue === 0
-              ? "timeBar__item timeBar__item--active"
-              : "timeBar__item"
-          }
-        >
-          DAY
-        </li>
-        <li
-          className={
-            activeValue === 1
-              ? "timeBar__item timeBar__item--active"
-              : "timeBar__item"
-          }
-        >
-          WEEK
-        </li>
+    <div className="timeBar">
+      <ul className="timeBar__list" ref={ref}>
+        {timeItems.map((item, index) => (
+          <TimeItem
+            content={item.content}
+            index={index}
+            key={uuidv4()}
+            handleClick={handleClick}
+            activeValue={activeValue}
+          />
+        ))}
       </ul>
-      <div className="active-bar"></div>
+
+      <ActiveBar width={activeItemWidth} left={activeOffSetLeft} />
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./HoriScroll.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -9,116 +9,103 @@ import {
 import Actor from "./Actor/Actor";
 import Trailer from "./Trailer/Trailer";
 import Film from "../Film/Film";
-import { isVisible, checkScrollBar } from "../../lib/elementLib";
+import {
+  isVisible,
+  isInViewPort,
+  isElementXPercentInViewport,
+} from "../../lib/library";
+
 export default function HoriScroll({ items, type }) {
-  const list = useRef(null);
-  let lastIndex = 0;
+  const [lastIndex, setLastIndex] = useState(0);
+  const listRef = useRef(null);
+  const leftBtnRef = useRef(null);
+  const rightBtnRef = useRef(null);
 
   useEffect(() => {
-    const scrollList = list.current.querySelector(".horizontal-scroll-list");
-    const leftBtn = list.current.querySelector(".btn-left");
-    const rightBtn = list.current.querySelector(".btn-right");
-    const listItems = scrollList.querySelectorAll("li");
+    const list = listRef.current;
+    const leftBtn = leftBtnRef.current;
+    const rightBtn = rightBtnRef.current;
+    const listItems = list.children;
+    const maxScrollWidth = list.scrollWidth;
+    const listWidth = list.clientWidth;
 
-    // console.log(checkScrollBar(scrollList));
-    // if (!checkScrollBar(scrollList, "Horizontal")) {
-    //   leftBtn.classList.add("disable");
-    //   rightBtn.classList.add("disable");
-    // }
-
+    //  Function
     function toRight() {
-      const maxScrollWidth = scrollList.scrollWidth;
-      const listWidth = scrollList.clientWidth;
-      const firstOverflowIndex = Array.from(listItems).findIndex(
-        (item, index) => index > lastIndex && !isVisible(item)
-      );
-      console.log("Last index: ", lastIndex);
-
-      console.log(firstOverflowIndex);
-
-      lastIndex = firstOverflowIndex;
-
-      if (lastIndex === -1) {
-        lastIndex = listItems.length - 1;
-      }
-      const newOffSetLeft = listItems[lastIndex].offsetLeft;
-
-      if (newOffSetLeft > 0) {
-        leftBtn.classList.remove("disable");
-      }
-
-      scrollList.scroll({
-        behavior: "smooth",
-        left: newOffSetLeft,
+      const inVisibleItem = Array.from(listItems).find((item, index) => {
+        if (!isVisible(item, list) && index > lastIndex) {
+          setLastIndex(index);
+          return true;
+        }
+        return false;
       });
 
-      if (newOffSetLeft >= maxScrollWidth - listWidth)
-        rightBtn.classList.add("disable");
+      if (inVisibleItem) {
+        const newOffSetLeft = inVisibleItem.offsetLeft;
+
+        list.scroll({ behavior: "smooth", left: newOffSetLeft });
+
+        if (newOffSetLeft >= maxScrollWidth - listWidth)
+          setLastIndex(items.length);
+      }
     }
 
     function toLeft() {
-      const maxScrollWidth = scrollList.scrollWidth;
-      const listWidth = scrollList.clientWidth;
-      const firstOverflowIndex = Array.from(listItems).findLastIndex(
-        (item, index) => index < lastIndex && !isVisible(item)
-      );
-      lastIndex = firstOverflowIndex;
+      const reverse = Array.from(listItems).reverse();
+      let findIndex = -1;
 
-      console.log("123");
-      if (lastIndex === -1) {
-        leftBtn.classList.add("disable");
-      }
-
-      const newOffSetLeft =
-        lastIndex <= 0 ? 0 : listItems[firstOverflowIndex].offsetLeft;
-
-      if (newOffSetLeft < maxScrollWidth - listWidth)
-        rightBtn.classList.remove("disable");
-
-      scrollList.scroll({
-        behavior: "smooth",
-        left: newOffSetLeft,
+      const itemsLength = items.length;
+      const inVisibleItem = reverse.find((item, index) => {
+        if (!isVisible(item) && itemsLength - 1 - index < lastIndex) {
+          setLastIndex(itemsLength - 1 - index);
+          return true;
+        }
+        return false;
       });
 
-      if (newOffSetLeft <= 0) {
-        leftBtn.classList.add("disable");
+      if (!findIndex) {
+        list.scroll({ behavior: "smooth", left: 0 });
+        return;
       }
+
+      const newOffSetLeft = inVisibleItem.offsetLeft;
+      list.scroll({ behavior: "smooth", left: newOffSetLeft });
     }
 
-    // Handle event
-    rightBtn.onclick = toRight;
-    leftBtn.onclick = toLeft;
+    rightBtn.addEventListener("click", toRight);
+    leftBtn.addEventListener("click", toLeft);
 
     return () => {
-      leftBtn.onclick = undefined;
-      rightBtn.onclick = undefined;
-      scrollList.scroll({
-        left: 0,
-      });
-
-      leftBtn.classList.add("disable");
-      rightBtn.classList.remove("disable");
+      rightBtn.removeEventListener("click", toRight);
+      leftBtn.removeEventListener("click", toLeft);
     };
-  }, [items, type]);
+  }, [items, type, lastIndex]);
 
   return (
-    <div className="horizontal-scroll" ref={list}>
+    <div className="horizontal-scroll">
       <div className="horizontal-scroll__top">
         {type === "actor" && <h3>DIỄN VIÊN</h3>}
         {type === "trailer" && <h3>TRAILERS</h3>}
         {type === "similar" && <h3>PHIM CÙNG THỂ LOẠI</h3>}
 
         <div className="direction-btn-block">
-          <div className="btn-left disable">
+          <div
+            className={lastIndex === 0 ? "btn-left disable" : "btn-left"}
+            ref={leftBtnRef}
+          >
             <FontAwesomeIcon icon={faChevronLeft} />
           </div>
 
-          <div className="btn-right">
+          <div
+            className={
+              lastIndex === items.length ? "btn-right disable" : "btn-right"
+            }
+            ref={rightBtnRef}
+          >
             <FontAwesomeIcon icon={faChevronRight} />
           </div>
         </div>
       </div>
-      <ul className="horizontal-scroll-list">
+      <ul className="horizontal-scroll-list" ref={listRef}>
         {type === "actor" &&
           items &&
           items.map((actor, index) => (
