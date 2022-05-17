@@ -52,7 +52,15 @@
       transform: translate(-50%, -50%);
       z-index: 999;
 
-      @include mobile-tablet {
+      @include tablet {
+        width: 100%;
+      }
+
+      @include mobile {
+        width: 100%;
+      }
+
+      @include mobile-sm {
         width: 100%;
       }
     }

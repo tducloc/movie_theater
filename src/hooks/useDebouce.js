@@ -10,7 +10,6 @@ export default function useDebouce(searchKey, delay) {
   const [isFetch, setIsFetch] = useState(false);
   function replaceArray(...newArray) {
     const newList = newArray.flat();
-    // console.log(newList);
     newList.sort((a, b) => b.popularity - a.popularity);
     setData(() => {
       return newList;
@@ -21,6 +20,8 @@ export default function useDebouce(searchKey, delay) {
     if (!searchKey) return;
 
     const debounce = setTimeout(async () => {
+      setIsFetch(false);
+
       setIsLoading(true);
       const movieSearchUrl = urlGenerator.getSearchFilmUrl("movie");
       const tvSearchUrl = urlGenerator.getSearchFilmUrl("tv");
@@ -50,8 +51,11 @@ export default function useDebouce(searchKey, delay) {
 
       replaceArray([...moviesResult, ...tvsResult]);
       setTotalResult(movieRes.data.total_pages + tvRes.data.total_pages);
-      setIsFetch(true);
-      setIsLoading(false);
+
+      setTimeout(() => {
+        setIsFetch(true);
+        setIsLoading(false);
+      }, 1000);
     }, delay);
 
     return () => {

@@ -14,7 +14,17 @@
       padding-bottom: 0.4rem;
       margin-bottom: 1.6rem;
 
-      @include mobile-tablet {
+      @include tablet {
+        font-size: 3rem;
+        text-align: center;
+      }
+
+      @include mobile {
+        font-size: 3rem;
+        text-align: center;
+      }
+
+      @include mobile-sm {
         font-size: 3rem;
         text-align: center;
       }

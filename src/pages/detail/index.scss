@@ -34,7 +34,17 @@
     display: flex;
     column-gap: 6rem;
 
-    @include mobile-tablet {
+    @include tablet {
+      display: block;
+      padding: 1rem 2rem;
+    }
+
+    @include mobile {
+      display: block;
+      padding: 1rem 2rem;
+    }
+
+    @include mobile-sm {
       display: block;
       padding: 1rem 2rem;
     }
@@ -44,7 +54,15 @@
         width: 240px;
         height: 360px;
 
-        @include mobile-tablet {
+        @include tablet {
+          margin: auto;
+        }
+
+        @include mobile {
+          margin: auto;
+        }
+
+        @include mobile-sm {
           margin: auto;
         }
         img {
@@ -74,7 +92,17 @@
       flex: 1;
       overflow: hidden;
       h1 {
-        @include mobile-tablet {
+        @include tablet {
+          text-align: center;
+          margin-top: 3rem;
+        }
+
+        @include mobile {
+          text-align: center;
+          margin-top: 3rem;
+        }
+
+        @include mobile-sm {
           text-align: center;
           margin-top: 3rem;
         }
@@ -83,7 +111,21 @@
       }
 
       .certificate {
-        @include mobile-tablet {
+        @include tablet {
+          text-align: center;
+          margin-left: auto;
+          margin-right: auto;
+          display: table;
+        }
+
+        @include mobile {
+          text-align: center;
+          margin-left: auto;
+          margin-right: auto;
+          display: table;
+        }
+
+        @include mobile-sm {
           text-align: center;
           margin-left: auto;
           margin-right: auto;
@@ -105,7 +147,15 @@
         font-size: 1.3rem;
         column-gap: 1.6rem;
 
-        @include mobile-tablet {
+        @include tablet {
+          justify-content: center;
+        }
+
+        @include mobile {
+          justify-content: center;
+        }
+
+        @include mobile-sm {
           justify-content: center;
         }
         svg {
@@ -123,7 +173,17 @@
         justify-content: space-between;
         margin-top: 2rem;
 
-        @include mobile-tablet {
+        @include tablet {
+          flex-direction: column;
+          row-gap: 2rem;
+        }
+
+        @include mobile {
+          flex-direction: column;
+          row-gap: 2rem;
+        }
+
+        @include mobile-sm {
           flex-direction: column;
           row-gap: 2rem;
         }
@@ -202,7 +262,15 @@
           align-items: center;
           font-size: 1.6rem;
 
-          @include mobile-tablet {
+          @include tablet {
+            justify-content: center;
+          }
+
+          @include mobile {
+            justify-content: center;
+          }
+
+          @include mobile-sm {
             justify-content: center;
           }
 
@@ -247,7 +315,7 @@
       }
 
       .detail__info-similar {
-        height: 350px;
+        // height: 350px;
       }
 
       .detai__info-season,

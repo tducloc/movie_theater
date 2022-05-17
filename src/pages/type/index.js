@@ -30,7 +30,6 @@ export default function TypePage() {
       const res = await axios.get(urlGenerator.getDiscoverUrl(media_type), {
         params,
       });
-      console.log(res.data);
       setData((oldData) => [...oldData, ...res.data.results]);
       setLoading(false);
     })();
@@ -68,9 +67,7 @@ export default function TypePage() {
       params[query] = data;
     }
 
-    console.log(params);
-
-    (async function () {
+    async function fetchData() {
       setLoading(true);
       const res = await axios.get(urlGenerator.getDiscoverUrl(media_type), {
         params,
@@ -82,7 +79,9 @@ export default function TypePage() {
       setCurrentPage(1);
       setLoading(false);
       setIsFetch(true);
-    })();
+    }
+
+    fetchData();
   }, [queryParams, media_type]);
 
   return (

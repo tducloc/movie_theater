@@ -1,58 +1,45 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass, faBars } from "@fortawesome/free-solid-svg-icons";
+
 import "./Header.scss";
+import HeaderMobile from "./HeaderMobile/HeaderMobile";
+import HeaderNavItem from "./HeaderNavItem/HeaderNavItem";
+import { desktopNavItems } from "../../config/componentVariable";
+import { v4 as uuidv4 } from "uuid";
+
 export default function Header() {
   const url = useLocation();
+  const headerRef = useRef(null);
+  const [isScroll, setIsScroll] = useState(false);
+
   useEffect(() => {
-    const header = document.querySelector(".header");
-    const headerNavController = document.querySelector(".header__nav-icon");
-    const headerNav = document.querySelector(".header__nav");
-    const headerNavLayout = document.querySelector(".header__nav-layout");
+    const header = headerRef.current;
 
-    const headerNavLink = headerNav.querySelectorAll(".header__nav-list a");
-
-    console.log(headerNavLink);
-
-    // const app = document.querySelector(".App");
-    window.onscroll = function (e) {
+    function _handleWindowScroll() {
       const height = header.offsetHeight;
 
       if (window.scrollY >= height) {
-        header.classList.add("header--scroll");
+        setIsScroll(true);
         return;
       }
       if (window.scrollY <= 0) {
-        header.classList.remove("header--scroll");
+        setIsScroll(false);
+
         return;
       }
-    };
-
-    function openNav() {
-      headerNav.classList.add("header__nav--active");
     }
-    function closeNav() {
-      headerNav.classList.remove("header__nav--active");
-    }
-
-    headerNavController.onclick = openNav;
-
-    headerNavLayout.onclick = closeNav;
-
-    Array.from(headerNavLink).forEach((item, index) => {
-      item.onclick = closeNav;
-    });
+    window.addEventListener("scroll", _handleWindowScroll);
 
     return () => {
-      headerNavController.onclick = undefined;
-      headerNavLayout.onclick = undefined;
-      window.onscroll = undefined;
+      window.removeEventListener("scroll", _handleWindowScroll);
     };
   }, []);
 
   return (
-    <div className="header">
+    <div
+      className={isScroll ? "header header--scroll" : "header"}
+      ref={headerRef}
+    >
       <div className="header__pc">
         <div className="header__left">
           <Link to="/" className="header__logo">
@@ -60,52 +47,13 @@ export default function Header() {
           </Link>
 
           <ul className="header__nav-list">
-            <li>
-              <Link
-                to="/search"
-                className={
-                  url.pathname === "/search" ? "header__nav-link--active" : ""
-                }
-              >
-                <FontAwesomeIcon icon={faMagnifyingGlass} />
-                <p>Tìm kiếm</p>
-              </Link>
-            </li>
-
-            <li>
-              <Link
-                to="/top"
-                className={
-                  url.pathname === "/top" ? "header__nav-link--active" : ""
-                }
-              >
-                Phim hot
-              </Link>
-            </li>
-
-            <li>
-              <Link
-                to="/type/movie"
-                className={
-                  url.pathname === "/type/movie"
-                    ? "header__nav-link--active"
-                    : ""
-                }
-              >
-                Phim lẻ
-              </Link>
-            </li>
-
-            <li>
-              <Link
-                to="/type/tv"
-                className={
-                  url.pathname === "/type/tv" ? "header__nav-link--active" : ""
-                }
-              >
-                Phim bộ
-              </Link>
-            </li>
+            {desktopNavItems.map((item) => (
+              <HeaderNavItem
+                href={item.href}
+                urlPathName={url.pathname}
+                key={uuidv4()}
+              />
+            ))}
           </ul>
         </div>
         <div className="header__right">
@@ -115,76 +63,7 @@ export default function Header() {
         </div>
       </div>
 
-      <div className="header__mobile">
-        <div className="header__left">
-          <div className="header__nav-icon">
-            <FontAwesomeIcon icon={faBars} />
-          </div>
-
-          <Link to="/" className="header__logo">
-            <img src="/assets/images/logo.png" alt="logo" />
-          </Link>
-        </div>
-        <div className="header__right">
-          <div className="header__search">
-            <Link to="/search">
-              <FontAwesomeIcon icon={faMagnifyingGlass} />
-              <p>Tìm kiếm</p>
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      <div className="header__nav">
-        <div className="header__authen">
-          <Link to="/" className="btn">
-            Đăng nhập
-          </Link>
-        </div>
-        <ul className="header__nav-list">
-          <li>
-            <Link
-              to="/"
-              className={url.pathname === "/" ? "header__nav-link--active" : ""}
-            >
-              Trang chủ
-            </Link>
-          </li>
-
-          <li>
-            <Link
-              to="/top"
-              className={
-                url.pathname === "/top" ? "header__nav-link--active" : ""
-              }
-            >
-              Phim hot
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/type/movie"
-              className={
-                url.pathname === "/type/movie" ? "header__nav-link--active" : ""
-              }
-            >
-              Phim lẻ
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/type/tv"
-              className={
-                url.pathname === "/type/tv" ? "header__nav-link--active" : ""
-              }
-            >
-              Phim bộ
-            </Link>
-          </li>
-        </ul>
-      </div>
-
-      <div className="header__nav-layout"></div>
+      <HeaderMobile />
     </div>
   );
 }

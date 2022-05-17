@@ -42,3 +42,48 @@ export const sortBy = [
   { id: "vote_desc", name: "Vote giảm dần", value: "vote_average.desc" },
   { id: "vote_asc", name: "Vote tăng dần", value: "vote_average.asc" },
 ];
+
+export const desktopNavItems = [
+  {
+    href: "/search",
+  },
+  {
+    href: "/top",
+  },
+
+  {
+    href: "/type/movie",
+  },
+
+  {
+    href: "/type/tv",
+  },
+];
+
+export const tabletMobileNavItems = [
+  {
+    href: "/",
+  },
+
+  {
+    href: "/top",
+  },
+
+  {
+    href: "/type/movie",
+  },
+
+  {
+    href: "/type/tv",
+  },
+];
+
+export const errorActorImage =
+  "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png";
+
+export const footerItems = [
+  "Là phim bluray (reencoded), có độ phân giải thấp nhất là Full HD (1080p), trong khi hầu hết các trang phim khác chỉ có tới độ phân giải HD (720p) là cao nhất",
+  " Chất lượng cao, lượng dữ liệu trên giây (bitrate) gấp từ 5 - 10 lần phim online thông thường - đây là yếu tố quyết định độ nét của phim (thậm chí còn quan trọng hơn độ phân giải)",
+  " Âm thanh 5.1 (6 channel) thay vì stereo (2 channel) như các trang phim khác (kể cả Youtube)",
+  "Phù hợp để xem trên màn hình TV, máy tính, laptop có độ phân giải cao",
+];

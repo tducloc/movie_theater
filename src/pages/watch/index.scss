@@ -17,7 +17,15 @@
       color: #fff;
       font-weight: 400;
 
-      @include mobile-tablet {
+      @include tablet {
+        font-size: 2rem;
+      }
+
+      @include mobile {
+        font-size: 2rem;
+      }
+
+      @include mobile-sm {
         font-size: 2rem;
       }
     }

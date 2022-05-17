@@ -1,6 +1,6 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useParams, useSearchParams, useNavigate } from "react-router-dom";
+import React, { useCallback, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import Search from "../../components/SearchInput/Search";
 import "./index.scss";
 import FilmList from "../../components/FilmList/FilmList";
@@ -9,128 +9,77 @@ import FetchMoreButton from "../../components/FetchMoreButton/FetchMoreButton";
 
 export default function SearchPage() {
   const [searchParam] = useSearchParams();
-  // const [films, setFilms] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  // const [totalResult, setTotalResult] = useState(0);
   const searchKey = searchParam.get("q");
-  // const [loading, setLoading] = useState(false);
 
-  const [
-    films,
-    totalResult,
-    isFetch,
-    isLoading,
-    dispatchSetData,
-    dispatchSetLoading,
-  ] = useDebouce(searchKey, 1000);
-  // const [isFetch, setIsFetch] = useState(false);
+  const [films, totalResult, isFetch, isLoading, setFilms, setLoading] =
+    useDebouce(searchKey, 1000);
 
-  async function fetchSearchMovies() {
-    const moviesURI = `${process.env.REACT_APP_API_URL}/search/movie`;
-    const res = await axios.get(moviesURI, {
-      params: {
-        api_key: process.env.REACT_APP_API_KEY,
-        page: currentPage,
-        query: searchKey.toString(),
-      },
-    });
-
-    return res.data;
-  }
-
-  async function fetchSearchTVs() {
-    const moviesURI = `${process.env.REACT_APP_API_URL}/search/tv`;
-    const res = await axios.get(moviesURI, {
-      params: {
-        api_key: process.env.REACT_APP_API_KEY,
-        page: currentPage,
-        query: searchKey.toString(),
-      },
-    });
-
-    return res.data;
-  }
-
-  function addItems(...newArray) {
-    const passArray = newArray.flat();
-    passArray.sort((a, b) => b.popularity - a.popularity);
-    const newList = [...films, ...passArray];
-
-    dispatchSetData(newList);
-  }
-
-  // function replaceArray(...newArray) {
-  //   const newList = newArray.flat();
-  //   // console.log(newList);
-  //   newList.sort((a, b) => b.popularity - a.popularity);
-  //   setFilms(() => {
-  //     return newList;
-  //   });
-  // }
-
-  //   scroll page
-  useEffect(() => {
-    if (!searchKey || currentPage === 1) return;
-
-    console.log(currentPage);
-    dispatchSetLoading(true);
-    (async function () {
-      const moviesData = await fetchSearchMovies();
-      const tvsData = await fetchSearchTVs();
-
-      const moviesResult = moviesData.results.map((movie) => {
-        return { ...movie, media_type: "movie" };
+  const fetchSearchMovies = useCallback(
+    async function (clickPage) {
+      const moviesURI = `${process.env.REACT_APP_API_URL}/search/movie`;
+      const res = await axios.get(moviesURI, {
+        params: {
+          api_key: process.env.REACT_APP_API_KEY,
+          page: clickPage,
+          query: searchKey.toString(),
+        },
       });
 
-      const tvsResult = tvsData.results.map((tv) => {
-        return { ...tv, media_type: "tv" };
+      return res.data;
+    },
+    [searchKey]
+  );
+
+  const fetchSearchTVs = useCallback(
+    async function (clickPage) {
+      const moviesURI = `${process.env.REACT_APP_API_URL}/search/tv`;
+      const res = await axios.get(moviesURI, {
+        params: {
+          api_key: process.env.REACT_APP_API_KEY,
+          page: clickPage,
+          query: searchKey.toString(),
+        },
       });
 
-      console.log(moviesResult);
-      addItems([...moviesResult, ...tvsResult]);
-      //   setTotalResult(moviesData.total_pages + tvsData.total_pages);
-    })();
+      return res.data;
+    },
+    [searchKey]
+  );
 
+  async function handleClick() {
+    setLoading(true);
+
+    const clickPage = currentPage + 1;
+
+    const moviesData = await fetchSearchMovies(clickPage);
+    const tvsData = await fetchSearchTVs(clickPage);
+
+    const moviesResult = moviesData.results.map((movie) => {
+      return { ...movie, media_type: "movie" };
+    });
+
+    const tvsResult = tvsData.results.map((tv) => {
+      return { ...tv, media_type: "tv" };
+    });
+
+    const combineArray = moviesResult.concat(tvsResult);
+    combineArray.sort((a, b) => b.popularity - a.popularity);
+    const totalResult = films.concat(combineArray);
+
+    setFilms(totalResult);
     setTimeout(() => {
-      dispatchSetLoading(false);
+      setLoading(false);
     }, 500);
-  }, [currentPage]);
 
-  //   Change search key
-  // useEffect(() => {
-  //   if (!searchKey) return;
-
-  //   setLoading(true);
-
-  //   (async function () {
-  //     const moviesData = await fetchSearchMovies();
-  //     const tvsData = await fetchSearchTVs();
-
-  //     const moviesResult = moviesData.results.map((movie) => {
-  //       return { ...movie, media_type: "movie" };
-  //     });
-
-  //     const tvsResult = tvsData.results.map((tv) => {
-  //       return { ...tv, media_type: "tv" };
-  //     });
-
-  //     replaceArray([...moviesResult, ...tvsResult]);
-  //     setTotalResult(moviesData.total_pages + tvsData.total_pages);
-  //   })();
-
-  //   setTimeout(() => {
-  //     setLoading(false);
-  //   }, 500);
-  // }, [searchKey]);
-
-  function handleClick() {
-    setCurrentPage((page) => page + 1);
+    setCurrentPage(clickPage);
   }
+
   return (
     <div className="search ">
       <div className="container">
         <Search searchKey={searchKey} />
-        {!isLoading && films.length != 0 && (
+        {!isLoading && isFetch && films.length !== 0 && (
           <>
             <FilmList films={films} />
 
@@ -144,9 +93,9 @@ export default function SearchPage() {
           <h1>Không tìm thấy phim</h1>
         )}
 
-        {isLoading && films.length === 0 && <h1>Loading...</h1>}
+        {isLoading && !isFetch && <h1>Loading...</h1>}
 
-        {isLoading && films.length && (
+        {isLoading && isFetch && films.length && (
           <>
             <FilmList films={films} />
             <h1>Loading...</h1>

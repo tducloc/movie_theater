@@ -63,4 +63,8 @@ export default {
   getTrendingUrl: (media_type, time) => {
     return `${process.env.REACT_APP_API_URL}/trending/${media_type}/${time}`;
   },
+
+  getImageUrl: (path) => {
+    return `${process.env.REACT_APP_API_IMAGE_PATH}/${path}`;
+  },
 };

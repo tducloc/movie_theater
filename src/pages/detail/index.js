@@ -5,7 +5,6 @@ import HoriScroll from "../../components/HoriScroll/HoriScroll";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import "./index.scss";
-import axios from "axios";
 import Season from "../../components/Season/Season";
 import Episode from "../../components/Episode/Episode";
 import useScrollToTop from "../../hooks/scrollToTop";
@@ -35,25 +34,17 @@ export default function DetailPage() {
     urlGenerator.getTrailerOfFilmUrl(media_type, id)
   );
 
-  const {
-    // data: { cast },
-    // data: { crew },
-    data: castFetchData,
-  } = useFetch(urlGenerator.getCastOfFilmUrl(media_type, id));
+  const { data: castFetchData } = useFetch(
+    urlGenerator.getCastOfFilmUrl(media_type, id)
+  );
 
   useEffect(() => {
     if (similarFetchData !== null) setSimilar(similarFetchData.results);
-  }, [similarFetchData]);
-
-  useEffect(() => {
     if (episodesFetchData !== null) {
       setEpisodes(episodesFetchData.episodes);
     }
-  }, [episodesFetchData]);
-
-  useEffect(() => {
     if (trailersFetchData !== null) setTrailer(trailersFetchData.results);
-  }, [trailersFetchData]);
+  }, [similarFetchData, episodesFetchData, trailersFetchData]);
 
   useEffect(() => {
     if (castFetchData !== null) {

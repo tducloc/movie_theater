@@ -1,8 +1,7 @@
 import "./index.scss";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import TimeBar from "../../components/TimeBar/TimeBar";
-import axios from "axios";
 import urlGenerator from "../../config/urlGenerator";
 import FilmList from "../../components/FilmList/FilmList";
 import useFetch from "../../hooks/useFetch";

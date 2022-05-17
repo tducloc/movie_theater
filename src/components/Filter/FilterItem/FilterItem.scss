@@ -1,7 +1,15 @@
 @import "../../../variable.scss";
 
 .filter__item {
-  @include mobile-tablet {
+  @include tablet {
+    margin-top: 2rem;
+  }
+
+  @include mobile {
+    margin-top: 2rem;
+  }
+
+  @include mobile-sm {
     margin-top: 2rem;
   }
 

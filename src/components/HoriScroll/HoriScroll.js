@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import "./HoriScroll.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -9,17 +9,35 @@ import {
 import Actor from "./Actor/Actor";
 import Trailer from "./Trailer/Trailer";
 import Film from "../Film/Film";
-import {
-  isVisible,
-  isInViewPort,
-  isElementXPercentInViewport,
-} from "../../lib/library";
+import { isVisible } from "../../lib/library";
 
 export default function HoriScroll({ items, type }) {
   const [lastIndex, setLastIndex] = useState(0);
   const listRef = useRef(null);
   const leftBtnRef = useRef(null);
   const rightBtnRef = useRef(null);
+
+  const generateList = useCallback(
+    function () {
+      if (type === "actor" && items)
+        return items.map((actor, index) => (
+          <Actor key={index} actor={actor} index={index} />
+        ));
+
+      if (type === "trailer" && items)
+        return items.map((trailer, index) => (
+          <Trailer key={trailer.id} trailer={trailer} index={index} />
+        ));
+
+      if (type === "similar" && items)
+        return items.map((movie) => (
+          <li className="similar__movie" key={movie.id}>
+            <Film media_type={"movie"} film={movie} />
+          </li>
+        ));
+    },
+    [items, type]
+  );
 
   useEffect(() => {
     const list = listRef.current;
@@ -106,25 +124,7 @@ export default function HoriScroll({ items, type }) {
         </div>
       </div>
       <ul className="horizontal-scroll-list" ref={listRef}>
-        {type === "actor" &&
-          items &&
-          items.map((actor, index) => (
-            <Actor key={index} actor={actor} index={index} />
-          ))}
-
-        {type === "trailer" &&
-          items &&
-          items.map((trailer, index) => (
-            <Trailer key={trailer.id} trailer={trailer} index={index} />
-          ))}
-
-        {type === "similar" &&
-          items &&
-          items.map((movie, index) => (
-            <li className="similar__movie" key={movie.id}>
-              <Film media_type={"movie"} film={movie} />
-            </li>
-          ))}
+        {generateList()}
       </ul>
     </div>
   );

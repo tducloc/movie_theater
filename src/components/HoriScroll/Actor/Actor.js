@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "./Actor.scss";
+import { errorActorImage } from "../../../config/componentVariable";
+import urlGenerator from "../../../config/urlGenerator";
 export default function Actor({ actor, index }) {
   const [imgURL, setImgURL] = useState("");
 
   useEffect(() => {
     setImgURL(
       actor.profile_path !== null
-        ? `${process.env.REACT_APP_API_IMAGE_PATH}/${actor.profile_path}`
-        : "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
+        ? urlGenerator.getImageUrl(actor.profile_path)
+        : errorActorImage
     );
   }, [actor]);
 

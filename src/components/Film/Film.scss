@@ -5,8 +5,19 @@
   .film__img {
     img {
       width: 100%;
-      height: auto;
-      @include mobile-tablet {
+      height: 400px;
+      object-fit: cover;
+      @include tablet {
+        object-fit: contain;
+        height: 350px;
+      }
+
+      @include mobile {
+        object-fit: contain;
+        height: 350px;
+      }
+
+      @include mobile-sm {
         object-fit: contain;
         height: 350px;
       }
