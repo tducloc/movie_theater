@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebookSquare } from "@fortawesome/free-brands-svg-icons";
 import { Link } from "react-router-dom";
 import { footerItems } from "../../config/componentVariable";
+import { v4 as uuidv4 } from "uuid";
+
 export default function Footer() {
   return (
     <div className="footer">
@@ -17,7 +19,7 @@ export default function Footer() {
 
         <ul>
           {footerItems.map((item) => (
-            <li>{item}</li>
+            <li key={uuidv4()}>{item}</li>
           ))}
         </ul>
 
