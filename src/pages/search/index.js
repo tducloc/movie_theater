@@ -56,11 +56,11 @@ export default function SearchPage() {
     const tvsData = await fetchSearchTVs(clickPage);
 
     const moviesResult = moviesData.results.map((movie) => {
-      return { ...movie, media_type: "movie" };
+      return { ...movie, mediaType: "movie" };
     });
 
     const tvsResult = tvsData.results.map((tv) => {
-      return { ...tv, media_type: "tv" };
+      return { ...tv, mediaType: "tv" };
     });
 
     const combineArray = moviesResult.concat(tvsResult);

@@ -2,7 +2,7 @@ import React from "react";
 import Film from "../Film/Film";
 import "./FilmList.scss";
 
-export default function FilmList({ films, media_type, view }) {
+export default function FilmList({ films, mediaType, view }) {
   return (
     <>
       <ul className={view === 2 ? "film-list" : "film-list--grid"}>
@@ -10,7 +10,13 @@ export default function FilmList({ films, media_type, view }) {
           <li key={index}>
             <Film
               film={film}
-              media_type={media_type ? media_type : film.media_type}
+              mediaType={
+                mediaType
+                  ? mediaType
+                  : film.mediaType
+                  ? film.mediaType
+                  : film.media_type
+              }
               view={view}
             />
           </li>

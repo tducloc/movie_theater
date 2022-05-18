@@ -15,13 +15,6 @@ export default function TimeBar({ activeValue, setChoice }) {
     setActiveOffSetLeft(offsetLeft);
   }
 
-  function _handleWindowResize() {
-    const items = ref.current.children;
-    const activeChild = items[activeValue];
-    if (activeChild)
-      updateActiveBar(activeChild.offsetLeft, activeChild.offsetWidth);
-  }
-
   function handleClick(element, index) {
     const activeElement = element;
     setChoice(index);
@@ -30,12 +23,19 @@ export default function TimeBar({ activeValue, setChoice }) {
   }
 
   useEffect(() => {
+    function _handleWindowResize() {
+      const items = ref.current.children;
+      const activeChild = items[activeValue];
+      if (activeChild)
+        updateActiveBar(activeChild.offsetLeft, activeChild.offsetWidth);
+    }
+
     window.addEventListener("resize", _handleWindowResize);
 
     return () => {
       window.removeEventListener("resize", _handleWindowResize);
     };
-  }, []);
+  }, [activeValue]);
 
   return (
     <div className="timeBar">

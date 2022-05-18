@@ -5,30 +5,23 @@ import useFetch from "../../hooks/useFetch";
 import "./Filter.scss";
 import FilterItem from "./FilterItem/FilterItem";
 import { useSearchParams } from "react-router-dom";
-import { year, sortBy } from "../../config/componentVariable";
-
-export default function Filter({ media_type, view, setView }) {
+// import { filterItems } from "../../config/componentVariable";
+import { year, sortBy, filterQuery } from "../../config/componentVariable";
+import ViewFilter from "./ViewFilter/ViewFilter";
+export default function Filter({ mediaType, view, setView }) {
   const [params, setParams] = useSearchParams();
 
   const [genres, setGenres] = useState([]);
-  const [query, setQuery] = useState({
-    genre: "",
-    country: "",
-    year: "",
-    sort: "",
-  });
+  const [query, setQuery] = useState(filterQuery);
   const { data: countries } = useFetch(urlGenerator.getAllCountriesUrl());
 
-  const [firstLoading, setFirstLoading] = useState(true);
+  // const [firstLoading, setFirstLoading] = useState(true);
 
   const filterItems = [
     {
       label: "Genres",
       data: genres,
-      type: "select",
-      setQuery: setQuery,
       initData: params.get("genre"),
-      query,
     },
 
     {
@@ -38,59 +31,40 @@ export default function Filter({ media_type, view, setView }) {
             a.english_name.localeCompare(b.english_name)
           )
         : "",
-      type: "select",
-      setQuery: setQuery,
       initData: params.get("country"),
-      query,
     },
 
     {
       label: "Year",
       data: year,
-      type: "select",
-      setQuery: setQuery,
       initData: params.get("year"),
-      query,
     },
 
     {
       label: "Sort by",
       data: sortBy,
-      type: "select",
       setQuery: { setQuery },
       initData: params.get("sort"),
-      query,
-    },
-
-    {
-      label: "View",
-      data: [0, 1],
-      type: "view",
-      setQuery: { setQuery },
-      initData: params.get("view"),
-      query,
-      view,
-      setView,
     },
   ];
 
   useEffect(() => {
-    (async function () {
-      const data = await fetchGenres(media_type);
-      setGenres(data);
-    })();
-
-    setQuery({ genre: "", country: "", year: "", sort: "" });
-  }, [media_type]);
+    fetchGenres(mediaType).then((data) => setGenres(data));
+    setQuery(filterQuery);
+  }, [mediaType]);
 
   useEffect(() => {
     const currentParams = new URLSearchParams(window.location.search);
-
-    if (firstLoading) {
-      console.log("first loading...");
-      setFirstLoading(false);
-      return;
+    let loadQuery = filterQuery;
+    for (let key of currentParams.keys()) {
+      loadQuery = { ...loadQuery, [key]: currentParams.get(key) };
     }
+
+    setQuery(loadQuery);
+  }, []);
+
+  function handleChangeQuery(query) {
+    const currentParams = new URLSearchParams(window.location.search);
 
     for (let key in query) {
       if (currentParams.has(key)) {
@@ -103,22 +77,10 @@ export default function Filter({ media_type, view, setView }) {
     }
 
     setParams(currentParams);
-  }, [query, setParams]);
+  }
 
-  useEffect(() => {
-    const currentParams = new URLSearchParams(window.location.search);
-
-    console.log("first init");
-    let loadQuery = { ...query };
-    for (let key of currentParams.keys()) {
-      loadQuery = { ...loadQuery, [key]: currentParams.get(key) };
-    }
-
-    setQuery(loadQuery);
-  }, []);
-
-  async function fetchGenres(media_type) {
-    const res = await axios.get(urlGenerator.getGenresUrl(media_type), {
+  async function fetchGenres(mediaType) {
+    const res = await axios.get(urlGenerator.getGenresUrl(mediaType), {
       params: {
         api_key: process.env.REACT_APP_API_KEY,
       },
@@ -133,15 +95,16 @@ export default function Filter({ media_type, view, setView }) {
           <FilterItem
             key={item.label}
             label={item.label}
-            data={item.data}
-            type={item.type}
             setQuery={setQuery}
             initData={item.initData}
             query={query}
-            view={item?.view}
-            setView={item?.setView}
+            mediaType={mediaType}
+            data={item.data}
+            handleChangeQuery={handleChangeQuery}
           />
         ))}
+
+        <ViewFilter view={view} setView={setView} />
       </ul>
     </div>
   );

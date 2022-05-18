@@ -32,7 +32,7 @@ export default function HoriScroll({ items, type }) {
       if (type === "similar" && items)
         return items.map((movie) => (
           <li className="similar__movie" key={movie.id}>
-            <Film media_type={"movie"} film={movie} />
+            <Film mediaType={"movie"} film={movie} />
           </li>
         ));
     },

@@ -2,14 +2,14 @@ import React from "react";
 import "./Episode.scss";
 import { Link } from "react-router-dom";
 
-export default function Episode({ episodes, media_type, id }) {
+export default function Episode({ episodes, mediaType, id }) {
   return (
     <ul className="episode__list">
       {episodes.map((ep) => (
         <li className="episode__item" key={ep.id}>
           <Link
             className="episode__link"
-            to={`/watch/${media_type}/${id}?season=${ep.season_number}&episode=${ep.episode_number}`}
+            to={`/watch/${mediaType}/${id}?season=${ep.season_number}&episode=${ep.episode_number}`}
           >
             <div className="episode__image">
               <img
@@ -21,7 +21,7 @@ export default function Episode({ episodes, media_type, id }) {
 
           <div className="episode__info">
             <Link
-              to={`/watch/${media_type}/${id}?season=${ep.season_number}&episode=${ep.episode_number}`}
+              to={`/watch/${mediaType}/${id}?season=${ep.season_number}&episode=${ep.episode_number}`}
             >
               Tập {ep.episode_number}: {ep.name}
             </Link>

@@ -6,7 +6,7 @@ export default function TimeItem({ content, index, activeValue, handleClick }) {
     if (index === activeValue) {
       handleClick(ref.current, index);
     }
-  }, []);
+  }, [activeValue, index, handleClick]);
   return (
     <li
       className={

@@ -3,14 +3,11 @@ import React, { useState, useEffect } from "react";
 import FilmList from "../components/FilmList/FilmList.js";
 import "./index.scss";
 import axios from "axios";
-import useScrollToTop from "../hooks/scrollToTop.js";
 
 export default function Homepage() {
   const [popularFilms, setPopularFilms] = useState([]);
   const [latestMovies, setLatestMovies] = useState([]);
   const [latestTVSeries, setLatestTVSeries] = useState([]);
-
-  useScrollToTop();
 
   const fetchPopularFilm = async () => {
     const uri = process.env.REACT_APP_API_URL + "/trending/all/week";
@@ -65,13 +62,13 @@ export default function Homepage() {
         {/* New film */}
         <section className="film__section">
           <h1>LATEST MOVIES</h1>
-          <FilmList films={latestMovies} media_type={"movie"} />
+          <FilmList films={latestMovies} mediaType={"movie"} />
         </section>
 
         {/* New series */}
         <section className="film__section">
           <h1>LATEST TV SERIES</h1>
-          <FilmList films={latestTVSeries} media_type={"tv"} />
+          <FilmList films={latestTVSeries} mediaType={"tv"} />
         </section>
       </div>
     </>

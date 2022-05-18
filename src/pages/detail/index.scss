@@ -188,6 +188,11 @@
           row-gap: 2rem;
         }
 
+        .btn-block-right {
+          display: flex;
+          gap: 1rem;
+        }
+
         .btn {
           display: flex;
           align-items: center;
@@ -285,15 +290,16 @@
           }
 
           .basic-info-data {
-            a {
+            p {
               margin-top: 0.6rem;
               color: #fff;
               font-weight: 600;
               text-transform: uppercase;
               display: block;
-              &:hover {
-                text-decoration: underline;
-              }
+              -webkit-user-select: none; /* Chrome all / Safari all */
+              -moz-user-select: none; /* Firefox all */
+              -ms-user-select: none; /* IE 10+ */
+              user-select: none; /* Likely future */
             }
           }
         }

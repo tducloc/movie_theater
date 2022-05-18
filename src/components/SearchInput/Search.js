@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Search.scss";
 export default function Search({ searchKey }) {
@@ -8,15 +8,9 @@ export default function Search({ searchKey }) {
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
+
+    if (e.target.value) navigate(`/search?q=${e.target.value}`);
   };
-
-  useEffect(() => {
-    if (!inputValue) {
-      return;
-    }
-
-    navigate(`/search?q=${inputValue}`);
-  }, [inputValue]);
 
   return (
     <div className="search__input">

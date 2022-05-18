@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import urlGenerator from "../config/urlGenerator";
 
 export default function useDebouce(searchKey, delay) {
@@ -42,11 +42,11 @@ export default function useDebouce(searchKey, delay) {
       });
 
       const moviesResult = movieRes.data.results.map((movie) => {
-        return { ...movie, media_type: "movie" };
+        return { ...movie, mediaType: "movie" };
       });
 
       const tvsResult = tvRes.data.results.map((tv) => {
-        return { ...tv, media_type: "tv" };
+        return { ...tv, mediaType: "tv" };
       });
 
       replaceArray([...moviesResult, ...tvsResult]);
@@ -56,7 +56,7 @@ export default function useDebouce(searchKey, delay) {
         setIsFetch(true);
         setIsLoading(false);
       }, 1000);
-    }, delay);
+    }, 1000);
 
     return () => {
       clearTimeout(debounce);

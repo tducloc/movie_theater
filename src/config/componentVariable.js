@@ -87,3 +87,32 @@ export const footerItems = [
   " Âm thanh 5.1 (6 channel) thay vì stereo (2 channel) như các trang phim khác (kể cả Youtube)",
   "Phù hợp để xem trên màn hình TV, máy tính, laptop có độ phân giải cao",
 ];
+
+export const filterItems = [
+  {
+    label: "Genres",
+  },
+
+  {
+    label: "Country",
+  },
+
+  {
+    label: "Year",
+  },
+
+  {
+    label: "Sort by",
+  },
+
+  {
+    label: "View",
+  },
+];
+
+export  const filterQuery = {
+  genre: "",
+  country: "",
+  year: "",
+  sort: "",
+};

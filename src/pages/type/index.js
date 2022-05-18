@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import Filter from "../../components/Filter/Filter";
 import "./index.scss";
@@ -7,7 +7,7 @@ import axios from "axios";
 import urlGenerator from "../../config/urlGenerator";
 import FetchMoreButton from "../../components/FetchMoreButton/FetchMoreButton";
 export default function TypePage() {
-  const { media_type } = useParams();
+  const { mediaType } = useParams();
   const [queryParams] = useSearchParams();
   const [data, setData] = useState([]);
   const [page, setCurrentPage] = useState(1);
@@ -17,26 +17,38 @@ export default function TypePage() {
   const [isFetch, setIsFetch] = useState(false);
   const [view, setView] = useState(1);
 
-  function handleClick() {
+  async function handleClick() {
+    setLoading(true);
+    const params = { ...fetchParams, page: page + 1 };
+    const res = await axios.get(urlGenerator.getDiscoverUrl(mediaType), {
+      params,
+    });
+    setData((oldData) => [...oldData, ...res.data.results]);
+    setLoading(false);
     setCurrentPage((page) => page + 1);
   }
 
-  useEffect(() => {
-    if (page === 1) return;
-
-    (async function () {
+  const fetchData = useCallback(
+    async (params) => {
       setLoading(true);
-      const params = { ...fetchParams, page };
-      const res = await axios.get(urlGenerator.getDiscoverUrl(media_type), {
+      setIsFetch(false);
+      const res = await axios.get(urlGenerator.getDiscoverUrl(mediaType), {
         params,
       });
-      setData((oldData) => [...oldData, ...res.data.results]);
+
+      setData(res.data.results);
+      setFetchParams(params);
+      setTotalResult(res.data.total_results);
+      setCurrentPage(1);
       setLoading(false);
-    })();
-  }, [page, fetchParams, media_type]);
+      setIsFetch(true);
+    },
+    [mediaType]
+  );
 
   useEffect(() => {
     const params = { api_key: process.env.REACT_APP_API_KEY, page: 1 };
+    console.log(queryParams);
     for (let entry of queryParams.entries()) {
       let query = "";
       let data = entry[1];
@@ -67,33 +79,19 @@ export default function TypePage() {
       params[query] = data;
     }
 
-    async function fetchData() {
-      setLoading(true);
-      const res = await axios.get(urlGenerator.getDiscoverUrl(media_type), {
-        params,
-      });
-
-      setData(res.data.results);
-      setFetchParams(params);
-      setTotalResult(res.data.total_results);
-      setCurrentPage(1);
-      setLoading(false);
-      setIsFetch(true);
-    }
-
-    fetchData();
-  }, [queryParams, media_type]);
+    fetchData(params);
+  }, [fetchData, queryParams]);
 
   return (
     <div className="type container">
       <h1 className="type__media">
-        {media_type === "tv" ? "Phim bộ" : "Phim lẻ"}
+        {mediaType === "tv" ? "Phim bộ" : "Phim lẻ"}
       </h1>
 
-      <Filter media_type={media_type} setView={setView} view={view} />
+      <Filter mediaType={mediaType} setView={setView} view={view} />
       {isFetch && !loading && data.length > 0 && (
         <section>
-          <FilmList films={data} media_type={media_type} view={view} />
+          <FilmList films={data} mediaType={mediaType} view={view} />
 
           {data.length < totalResult && (
             <FetchMoreButton handleFunction={handleClick} />
@@ -104,10 +102,12 @@ export default function TypePage() {
       {isFetch && !loading && data.length === 0 && (
         <h1 className="result">Không tìm thấy phim</h1>
       )}
-      {loading && data.length === 0 && <h1 className="result">Loading...</h1>}
-      {loading && data.length && (
+      {isFetch && loading && data.length === 0 && (
+        <h1 className="result">Loading...</h1>
+      )}
+      {isFetch && loading && data.length && (
         <section>
-          <FilmList films={data} view={view} media_type={media_type} />
+          <FilmList films={data} view={view} mediaType={mediaType} />
           <h1 className="result">Loading...</h1>
         </section>
       )}

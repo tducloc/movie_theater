@@ -3,9 +3,9 @@ import "./Film.scss";
 import { Link } from "react-router-dom";
 import urlGenerator from "../../config/urlGenerator";
 import { getYear } from "../../lib/library";
-export default function Film({ film, media_type, view }) {
+export default function Film({ film, mediaType, view }) {
   return view !== 2 ? (
-    <Link to={`/${media_type}/detail/${film.id}`} className="film__view--1">
+    <Link to={`/${mediaType}/detail/${film.id}`} className="film__view--1">
       <div className="film__img">
         <img src={urlGenerator.getPosterUrl(film.poster_path)} alt="img" />
       </div>
@@ -13,7 +13,7 @@ export default function Film({ film, media_type, view }) {
     </Link>
   ) : (
     <div className="film__view--2">
-      <Link to={`/${media_type}/detail/${film.id}`}>
+      <Link to={`/${mediaType}/detail/${film.id}`}>
         {" "}
         <div className="film__poster">
           <img src={urlGenerator.getPosterUrl(film.poster_path)} alt="img" />
@@ -23,7 +23,7 @@ export default function Film({ film, media_type, view }) {
       <div className="film__info">
         <div className="film__info-heading">
           <Link
-            to={`/${media_type}/detail/${film.id}`}
+            to={`/${mediaType}/detail/${film.id}`}
             className="film__info-title"
           >
             {film.title ?? film.name}
@@ -45,13 +45,13 @@ export default function Film({ film, media_type, view }) {
 
         <div className="film__info-heading">
           <Link
-            to={`/${media_type}/detail/${film.id}`}
+            to={`/${mediaType}/detail/${film.id}`}
             className="film__info-title--no-bold-dark-color"
           >
             {film.title ?? film.name}
           </Link>
           <div
-            to={`/${media_type}/detail/${film.id}`}
+            to={`/${mediaType}/detail/${film.id}`}
             className="film__info-year"
           >
             {film.release_date && getYear(film.release_date)}

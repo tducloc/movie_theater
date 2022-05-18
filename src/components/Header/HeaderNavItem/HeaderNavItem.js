@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import "./HeaderNavItem.scss";
-export default function HeaderNavItem({ href, urlPathName }) {
+export default function HeaderNavItem({ href, urlPathName,setOpenNav }) {
   const [title, setTitle] = useState("");
 
   useEffect(() => {
@@ -34,7 +34,7 @@ export default function HeaderNavItem({ href, urlPathName }) {
   }, [href]);
 
   return (
-    <li className="header__nav-item">
+    <li className="header__nav-item" onClick={()=>setOpenNav(false)}>
       <Link
         to={href}
         className={urlPathName === href ? "header__nav-link--active" : ""}

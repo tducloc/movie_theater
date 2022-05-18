@@ -3,34 +3,30 @@ import { useParams, useSearchParams } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import "./index.scss";
 import { Link } from "react-router-dom";
-import useScrollToTop from "../../hooks/scrollToTop";
 import { getYear } from "../../lib/library";
 import urlGenerator from "../../config/urlGenerator";
 export default function WatchPage() {
-  useScrollToTop();
-  const { id, media_type } = useParams();
+  const { id, mediaType } = useParams();
   const [searchParams] = useSearchParams();
   const season = searchParams.get("season");
   const episode = searchParams.get("episode");
   const [streamUrl, setStreamUrl] = useState("");
 
-  const { data } = useFetch(urlGenerator.getFilmDetailUrl(media_type, id));
+  const { data } = useFetch(urlGenerator.getFilmDetailUrl(mediaType, id));
 
   const { data: seasonDetail } = useFetch(
-    urlGenerator.getSeasonDetailUrl(media_type, id, season)
+    urlGenerator.getSeasonDetailUrl(mediaType, id, season)
   );
 
   useEffect(() => {
-    if (media_type === "movie")
-      setStreamUrl(
-        `${process.env.REACT_APP_STREAM_URL}/${media_type}?id=${id}`
-      );
+    if (mediaType === "movie")
+      setStreamUrl(`${process.env.REACT_APP_STREAM_URL}/${mediaType}?id=${id}`);
     else {
       setStreamUrl(
-        `${process.env.REACT_APP_STREAM_URL}/${media_type}?id=${id}&s=${season}&e=${episode}`
+        `${process.env.REACT_APP_STREAM_URL}/${mediaType}?id=${id}&s=${season}&e=${episode}`
       );
     }
-  }, [season, episode, id, media_type]);
+  }, [season, episode, id, mediaType]);
 
   return (
     <div className="stream">
@@ -42,10 +38,9 @@ export default function WatchPage() {
           allowFullScreen
         ></iframe>
       </div>
-      {console.log(data)}
       {data && (
         <div className="info container">
-          {media_type === "tv" && (
+          {mediaType === "tv" && (
             <>
               <h1 className="info__name">
                 {data.name} (Phần {season})
@@ -54,7 +49,7 @@ export default function WatchPage() {
             </>
           )}
 
-          {media_type === "movie" && (
+          {mediaType === "movie" && (
             <>
               <h1 className="info__name">{data.title}</h1>
 
@@ -71,11 +66,11 @@ export default function WatchPage() {
                   <li key={ep.id}>
                     <Link
                       className={
-                        ep.episode_number == episode
+                        ep.episode_number === +episode
                           ? `episodes__btn episodes__btn--active`
                           : `episodes__btn`
                       }
-                      to={`/watch/${media_type}/${id}?season=${season}&episode=${ep.episode_number}`}
+                      to={`/watch/${mediaType}/${id}?season=${season}&episode=${ep.episode_number}`}
                     >
                       {ep.episode_number}
                     </Link>
