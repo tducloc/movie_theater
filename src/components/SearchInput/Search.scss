@@ -1,3 +1,5 @@
+@import "../../variable.scss";
+
 .search__input {
   width: 100%;
   height: 50px;
@@ -10,7 +12,7 @@
     border: none;
     border: 4px;
     &:focus {
-      outline: 2px solid #428bca;
+      outline: 2px solid $blue-color;
     }
   }
 }

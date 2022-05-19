@@ -1,0 +1,146 @@
+@import "../../variable.scss";
+
+.actor-page {
+  margin-top: calc($header-height + 1.6rem);
+  display: grid;
+  grid-template-columns: 20% 70%;
+  grid-column-gap: 8rem;
+
+  @include mobile {
+    display: block;
+  }
+
+  @include mobile-sm {
+    display: block;
+  }
+
+  .actor-page__left {
+    .actor-page__profile-image {
+      width: 100%;
+
+      //   @include mobile {
+      //     display: flex;
+      //     justify-content: center;
+      //   }
+
+      //   @include mobile-sm {
+      //     display: flex;
+      //     justify-content: center;
+      //   }
+
+      img {
+        display: block;
+        margin: 0 auto;
+        @include mobile {
+          height: 400px;
+          width: auto;
+        }
+
+        @include mobile-sm {
+          height: 400px;
+          width: auto;
+        }
+      }
+    }
+
+    .actor-page__profile-info {
+      color: $white;
+      font-size: 1.6rem;
+      @include mobile {
+        text-align: center;
+      }
+
+      @include mobile-sm {
+        text-align: center;
+      }
+      h2 {
+        font-size: 2rem;
+        margin-top: 2rem;
+      }
+
+      ul {
+        margin-top: 2rem;
+        li {
+          margin-bottom: 2rem;
+
+          p {
+            color: $grey;
+          }
+        }
+      }
+    }
+  }
+
+  .actor-page__right {
+    @include mobile {
+      margin-top: 6rem;
+    }
+
+    @include mobile-sm {
+      margin-top: 6rem;
+    }
+
+    .actor-page__right-top {
+      color: $white;
+      h1.actor__name {
+        font-size: 4.6rem;
+        margin-bottom: 2rem;
+
+        @include tablet {
+          font-size: 4rem;
+        }
+
+        @include mobile {
+          font-size: 3rem;
+        }
+
+        @include mobile-sm {
+          font-size: 2rem;
+        }
+      }
+
+      .actor__bio {
+        h2 {
+          font-size: 2rem;
+          margin-bottom: 2rem;
+        }
+
+        p {
+          color: $grey;
+          font-size: 1.6rem;
+          line-height: 1.8;
+          word-wrap: break-word;
+        }
+      }
+    }
+
+    .actor-page__right-films {
+      margin-top: 3rem;
+      h2 {
+        font-size: 2rem;
+        color: $white;
+        margin-bottom: 2rem;
+      }
+      ul {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-column-gap: 2rem;
+        grid-row-gap: 3rem;
+
+        @include tablet {
+          grid-template-columns: repeat(3, 1fr);
+          grid-column-gap: 1.6rem;
+        }
+
+        @include mobile {
+          grid-template-columns: repeat(2, 1fr);
+          grid-column-gap: 1.6rem;
+        }
+
+        @include mobile-sm {
+          grid-template-columns: 100%;
+        }
+      }
+    }
+  }
+}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Actor.scss";
 import { errorActorImage } from "../../../config/componentVariable";
 import urlGenerator from "../../../config/urlGenerator";
+import { Link } from "react-router-dom";
 export default function Actor({ actor, index }) {
   const [imgURL, setImgURL] = useState("");
 
@@ -15,11 +16,11 @@ export default function Actor({ actor, index }) {
 
   return (
     <li className={index === 0 ? "actor-item active" : "actor-item"}>
-      <a href="/" className="actor-img">
+      <Link to={`/actor/${actor.id}`} className="actor-img">
         <img src={imgURL} alt="logo" loading="lazy" />
-      </a>
+      </Link>
       <h3 className="actor-real-name">
-        <a href="/">{actor.name}</a>
+        <Link to={`/actor/${actor.id}`}>{actor.name}</Link>
       </h3>
       <p className="actor-character">{actor.character}</p>
     </li>

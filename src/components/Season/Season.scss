@@ -1,10 +1,12 @@
+@import "../../variable.scss";
+
 .season__list {
   margin-top: 2rem;
   .season__item {
     display: flex;
     column-gap: 2rem;
     padding: 2rem 0;
-    border-bottom: 1px solid #dbdbdd;
+    border-bottom: 1px solid $border-light-color;
     &:last-child {
       border: none;
     }
@@ -16,16 +18,16 @@
     }
 
     .season__info {
-      color: rgb(185, 179, 170) !important;
+      color: $episode-season-color !important;
       font-size: 1.6rem;
 
       a {
         font-size: 2rem;
         margin-top: 0;
-        color: #fff;
+        color: $white;
 
         &:hover {
-          color: rgb(222, 248, 65);
+          color: $text-hover-yellow;
         }
       }
       span {

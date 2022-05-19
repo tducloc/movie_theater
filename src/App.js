@@ -10,13 +10,10 @@ import TypePage from "./pages/type";
 import TrendingPage from "./pages/top";
 // import { useEffect } from "react";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
+// import Actor from "./components/HoriScroll/Actor/Actor";
+import ActorPage from "./pages/actor/index"
 function App() {
-  // const pathName = window.location.pathName;
-
-  // useEffect(() => {
-  //   window.scrollTo(0, 0);
-  //   console.log(pathName);
-  // }, [pathName]);
+ 
   return (
     <Router>
       <ScrollToTop />
@@ -44,6 +41,9 @@ function App() {
 
           {/* Hot page */}
           <Route path="/top" element={<TrendingPage />}></Route>
+
+          {/* Actor page */}
+          <Route path="/actor/:id" element={<ActorPage />}></Route>
         </Routes>
         <Footer />
       </div>

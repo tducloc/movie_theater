@@ -7,7 +7,7 @@
   // display: flex;
   // align-items: center;
   // justify-content: space-between;
-  height: 55px;
+  height: $header-height;
   background-color: transparent;
   position: fixed;
   top: 0;
@@ -64,7 +64,7 @@
   .btn {
     padding: 0.6rem 1.6rem !important;
     border-radius: 2px;
-    color: #fff;
+    color: $white;
     background-color: #cf2122;
     font-size: 1.6rem;
     cursor: pointer;

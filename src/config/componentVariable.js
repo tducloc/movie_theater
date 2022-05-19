@@ -46,35 +46,43 @@ export const sortBy = [
 export const desktopNavItems = [
   {
     href: "/search",
+    title: "Search",
   },
   {
     href: "/top",
+    title: "Top films",
   },
 
   {
     href: "/type/movie",
+    title: "Movies",
   },
 
   {
     href: "/type/tv",
+    title: "TV series",
   },
 ];
 
 export const tabletMobileNavItems = [
   {
     href: "/",
+    title: "Homepage",
   },
 
   {
     href: "/top",
+    title: "Top films",
   },
 
   {
     href: "/type/movie",
+    title: "Movies",
   },
 
   {
     href: "/type/tv",
+    title: "TV series",
   },
 ];
 
@@ -110,7 +118,7 @@ export const filterItems = [
   },
 ];
 
-export  const filterQuery = {
+export const filterQuery = {
   genre: "",
   country: "",
   year: "",

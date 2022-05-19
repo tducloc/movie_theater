@@ -1,3 +1,4 @@
+@import "../../variable.scss";
 .scroll-to-top-btn {
   display: flex;
   position: fixed;
@@ -9,6 +10,6 @@
   justify-content: center;
   background-color: rgba(14, 39, 64, 0.8);
   font-size: 2.6rem;
-  color: #fff;
+  color: $white;
   cursor: pointer;
 }

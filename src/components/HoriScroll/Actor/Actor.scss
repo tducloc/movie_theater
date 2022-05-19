@@ -1,3 +1,5 @@
+@import "../../../variable.scss";
+
 .actor-item {
   display: flex;
   flex-direction: column;
@@ -19,7 +21,7 @@
   }
   .actor-real-name {
     a {
-      color: #fff;
+      color: $white;
       font-size: 1.6rem;
       font-weight: bold;
       // white-space: nowrap;

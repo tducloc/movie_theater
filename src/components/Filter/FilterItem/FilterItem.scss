@@ -15,7 +15,7 @@
 
   //   display: flex;
   font-size: 1.6rem;
-  color: #fff;
+  color: $white;
   width: 100%;
   label {
     display: block;
@@ -46,7 +46,7 @@
     }
 
     .active {
-      fill: #fff;
+      fill: $white;
     }
   }
 }

@@ -1,10 +1,12 @@
+@import "../../variable.scss";
+
 .search {
   margin: 10rem 0;
   margin-bottom: 4rem;
 
   h1 {
     font-size: 3rem;
-    color: #fff;
+    color: $white;
     text-align: center;
     margin-top: 3rem;
   }

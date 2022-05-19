@@ -1,10 +1,11 @@
+@import "../../variable.scss";
 .type {
   margin-top: 80px;
 
   padding: 1.2rem 1.6rem;
   .type__media {
     font-size: 3rem;
-    color: #fff;
+    color: $white;
     margin-bottom: 2rem;
   }
 
@@ -15,7 +16,7 @@
   .result {
     margin: 3rem;
     font-size: 3rem;
-    color: #fff;
+    color: $white;
     text-align: center;
   }
 }

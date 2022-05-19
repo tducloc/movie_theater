@@ -80,7 +80,7 @@
     height: 100%;
     .header__nav-icon {
       font-size: 2.4rem;
-      color: #fff;
+      color: $white;
       line-height: 0;
       height: 100%;
       display: flex;
@@ -103,7 +103,7 @@
       a {
         display: flex;
         font-size: 1.6rem;
-        color: #fff;
+        color: $white;
         align-items: center;
         column-gap: 0.6rem;
       }

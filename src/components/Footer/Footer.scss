@@ -1,12 +1,13 @@
+@import "../../variable.scss";
 .footer {
   background: url("../../../public/assets/images/footer-bg.jpg") no-repeat
     center center/cover;
   padding: 4.8rem 2.4rem;
-  color: #fff;
+  color: $white;
   font-size: 1.6rem;
 
   a {
-    color: #428bca;
+    color: $blue-color;
   }
   .container {
     h3 {

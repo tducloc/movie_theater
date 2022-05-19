@@ -8,24 +8,24 @@
       height: 400px;
       object-fit: cover;
       @include tablet {
-        object-fit: contain;
         height: 350px;
+        object-fit: cover;
       }
 
       @include mobile {
-        object-fit: contain;
         height: 350px;
+        object-fit: contain;
       }
 
       @include mobile-sm {
-        object-fit: contain;
         height: 350px;
+        object-fit: contain;
       }
     }
   }
 
   .film__title {
-    color: #fff;
+    color: $white;
     font-size: 1.6rem;
     text-align: center;
     margin-top: 1rem;
@@ -48,14 +48,14 @@
   }
 
   .film__info {
-    color: #b5b5b5;
+    color: $grey;
     font-size: 1.6rem;
 
     .film__info-heading {
       display: flex;
       justify-content: space-between;
       .film__info-title {
-        color: #fff;
+        color: $white;
         font-weight: bold;
 
         &:hover {

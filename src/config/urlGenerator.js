@@ -67,6 +67,19 @@ const generator = {
   getImageUrl: (path) => {
     return `${process.env.REACT_APP_API_IMAGE_PATH}/${path}`;
   },
+
+  getActorDetailUrl: (id)=>{
+    return `${process.env.REACT_APP_API_URL}/person/${id}`;
+  },
+
+  getJoinedMovieUrl: (id)=>{
+    return `${process.env.REACT_APP_API_URL}/person/${id}/movie_credits`;
+  },
+
+  getJoinedTvUrl:(id)=>{
+    return `${process.env.REACT_APP_API_URL}/person/${id}/tv_credits`;
+  }
+
 };
 
 export default generator;

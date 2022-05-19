@@ -1,8 +1,10 @@
+@import "../../../variable.scss";
+
 .active-bar {
   height: 2px;
   position: absolute;
   bottom: 0;
   width: 200px;
-  background-color: #3f51b5;
+  background-color: $time-active-color;
   transition: all 0.2s ease;
 }

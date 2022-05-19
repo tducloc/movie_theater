@@ -52,6 +52,7 @@ export default function Header() {
                 href={item.href}
                 urlPathName={url.pathname}
                 key={uuidv4()}
+                title={item.title}
               />
             ))}
           </ul>

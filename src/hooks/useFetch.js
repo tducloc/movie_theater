@@ -29,7 +29,7 @@ function useFetch(url) {
     })();
   }, [url]);
 
-  return { isLoading, data };
+  return { isLoading, data,setData };
 }
 
 export default useFetch;

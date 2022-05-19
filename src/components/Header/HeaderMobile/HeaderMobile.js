@@ -55,6 +55,7 @@ export default function HeaderMobile() {
               urlPathName={url.pathname}
               key={uuidv4()}
               setOpenNav={setOpenNav}
+              title={item.title}
             />
           ))}
         </ul>

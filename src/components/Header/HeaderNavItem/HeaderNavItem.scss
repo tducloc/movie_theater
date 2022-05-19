@@ -1,8 +1,10 @@
+@import "../../../variable.scss";
+
 .header__nav-item {
   height: 100%;
   a {
     font-size: 1.6rem;
-    color: #fff;
+    color: $white;
     display: flex;
     align-items: center;
     padding: 0 1.2rem;
@@ -10,12 +12,12 @@
     column-gap: 0.4rem;
     &:hover {
       background-color: #102c48;
-      color: #428bca;
+      color: $blue-color;
     }
     text-transform: capitalize;
   }
 
   a.header__nav-link--active {
-    color: #b1a21e;
+    color: $active-nav-color;
   }
 }

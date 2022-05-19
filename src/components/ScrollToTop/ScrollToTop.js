@@ -14,7 +14,7 @@ export default function ScrollToTop() {
     window.scrollTo({ behavior: "smooth", top: 0 });
   }
   return (
-    <div className="scroll-to-top-btn" onClick={handleClick}>
+    <div className="scroll-to-top-btn" onClick={(handleClick)}>
       <FontAwesomeIcon icon={faChevronUp} />
     </div>
   );
