@@ -9,6 +9,8 @@ import { v4 as uuidv4 } from "uuid";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/reducers/userReducer";
 import UserNavItem from "./UserNavItem/UserNavItem";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 export default function Header() {
   const url = useLocation();
   const headerRef = useRef(null);
@@ -72,7 +74,9 @@ export default function Header() {
 
         {user && (
           <div className="user__nav">
-            <h1>{user.displayName}</h1>
+            <h1>
+              {user.displayName} <FontAwesomeIcon icon={faChevronDown} />
+            </h1>
 
             <ul className={"user__nav-list"}>
               {userNavItems.map((item) => (
@@ -87,7 +91,7 @@ export default function Header() {
         )}
       </div>
 
-      <HeaderMobile />
+      <HeaderMobile user={user} userNavItems={userNavItems} />
     </div>
   );
 }

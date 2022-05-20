@@ -46,15 +46,18 @@
       &:hover {
         color: $blue-color;
         background-color: $header-item-hover-color;
-        .user__nav-list{
-          display:flex;
+        .user__nav-list {
+          display: flex;
+        }
+        &::after {
+          display: block;
         }
       }
 
       &::after {
         position: absolute;
         content: "";
-        display: block;
+        display: none;
         width: 100%;
         height: 20px;
         background-color: none;
@@ -64,6 +67,10 @@
       h1 {
         font-size: 1.6rem;
         font-weight: 400;
+        svg {
+          color: $blue-color;
+          margin-left: 0.6rem;
+        }
       }
       .user__nav-list {
         position: absolute;

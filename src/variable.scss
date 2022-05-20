@@ -18,7 +18,8 @@ $header-item-hover-color: #102c48;
 $mobile-width: 480px;
 $tablet-width: 768px;
 $desktop-width: 1024px;
-
+$layout-color: #06121e;
+$red-color:red;
 @mixin mobile-sm {
   @media (max-width: #{$mobile-width - 1px}) {
     @content;

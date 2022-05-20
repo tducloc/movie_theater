@@ -135,3 +135,15 @@ export const userNavItems = [
     href: "/logout",
   },
 ];
+
+export const emailPattern =
+  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+export const passwordPattern = {
+  content: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+  message:
+    "Password should be at least 8 characters, 1 uppercase, 1 lowercase, 1 number",
+};
+
+export const profileImageUrl =
+  "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png";

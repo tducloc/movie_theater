@@ -90,3 +90,8 @@ export const getYear = (dateString) => {
   const date = new Date(dateString);
   return date.getFullYear();
 };
+
+
+export const formatPathName = pathName => {
+  return pathName.replace("/", "");
+}

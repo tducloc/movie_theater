@@ -12,12 +12,13 @@ import TrendingPage from "./pages/top";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 // import Actor from "./components/HoriScroll/Actor/Actor";
 import ActorPage from "./pages/actor/index";
-import AuthPage from "./pages/authen";
+import AuthPage from "./pages/authPage";
 import { useEffect } from "react";
 import { auth, onAuthStateChanged } from "./config/firebase";
 import { login, logout } from "./redux/reducers/userReducer";
 import { useDispatch } from "react-redux";
 import LogoutPage from "./pages/logout";
+import { addUser, getUser } from "./database/firestore";
 
 function App() {
   // const user = useSelector(selectUser);
@@ -25,17 +26,15 @@ function App() {
 
   useEffect(() => {
     console.log("abc");
-    onAuthStateChanged(auth, (userAuth) => {
+    onAuthStateChanged(auth, async (userAuth) => {
       if (userAuth) {
         // user is logged in, send the user's details to redux, store the current user in the state
-        dispatch(
-          login({
-            email: userAuth.email,
-            uid: userAuth.uid,
-            displayName: userAuth.displayName,
-            photoUrl: userAuth.photoURL,
-          })
-        );
+        const user = await getUser(userAuth.uid);
+
+        if (user) {
+          dispatch(login(user));
+          addUser(user);
+        }
       } else {
         dispatch(logout());
       }
@@ -75,7 +74,11 @@ function App() {
 
           {/* Login page */}
           <Route path="/login" element={<AuthPage />}></Route>
+          <Route path="/signup" element={<AuthPage />}></Route>
 
+          {/* SignUp page */}
+
+          {/* Logout page */}
           <Route path="/logout" element={<LogoutPage />}></Route>
         </Routes>
         <Footer />
