@@ -1,5 +1,5 @@
 import "./App.scss";
-import Homepage from "./pages";
+import Homepage from "./pages/homepage";
 import Detail from "./pages/detail";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Header from "./components/Header/Header.js";
@@ -11,9 +11,37 @@ import TrendingPage from "./pages/top";
 // import { useEffect } from "react";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 // import Actor from "./components/HoriScroll/Actor/Actor";
-import ActorPage from "./pages/actor/index"
+import ActorPage from "./pages/actor/index";
+import AuthPage from "./pages/authen";
+import { useEffect } from "react";
+import { auth, onAuthStateChanged } from "./config/firebase";
+import { login, logout } from "./redux/reducers/userReducer";
+import { useDispatch } from "react-redux";
+import LogoutPage from "./pages/logout";
+
 function App() {
- 
+  // const user = useSelector(selectUser);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    console.log("abc");
+    onAuthStateChanged(auth, (userAuth) => {
+      if (userAuth) {
+        // user is logged in, send the user's details to redux, store the current user in the state
+        dispatch(
+          login({
+            email: userAuth.email,
+            uid: userAuth.uid,
+            displayName: userAuth.displayName,
+            photoUrl: userAuth.photoURL,
+          })
+        );
+      } else {
+        dispatch(logout());
+      }
+    });
+  }, [dispatch]);
+
   return (
     <Router>
       <ScrollToTop />
@@ -44,6 +72,11 @@ function App() {
 
           {/* Actor page */}
           <Route path="/actor/:id" element={<ActorPage />}></Route>
+
+          {/* Login page */}
+          <Route path="/login" element={<AuthPage />}></Route>
+
+          <Route path="/logout" element={<LogoutPage />}></Route>
         </Routes>
         <Footer />
       </div>

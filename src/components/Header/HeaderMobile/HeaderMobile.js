@@ -44,7 +44,7 @@ export default function HeaderMobile() {
         className={openNav ? "header__nav header__nav--active" : "header__nav"}
       >
         <div className="header__authen">
-          <Link to="/" className="btn">
+          <Link to="/login" className="btn">
             Đăng nhập
           </Link>
         </div>

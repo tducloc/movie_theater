@@ -124,3 +124,14 @@ export const filterQuery = {
   year: "",
   sort: "",
 };
+
+export const userNavItems = [
+  {
+    title: "Profile",
+    href: "/profile",
+  },
+  {
+    title: "Logout",
+    href: "/logout",
+  },
+];

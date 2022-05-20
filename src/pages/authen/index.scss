@@ -1,0 +1,39 @@
+@import "../../variable.scss";
+
+.auth {
+  margin-top: calc($header-height + 1rem);
+  width: fit-content;
+  height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  h1 {
+    font-size: 3rem;
+    color: $white;
+    margin-bottom: 2rem;
+  }
+  .auth__input {
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: $dark-grey;
+    width: fit-content;
+    .auth__input-google-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.6rem;
+      margin: 0;
+
+      svg {
+        fill: $white;
+        width: 2rem;
+      }
+
+      span {
+        font-size: 2.4rem;
+      }
+    }
+  }
+}

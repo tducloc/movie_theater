@@ -4,13 +4,18 @@ import { Link, useLocation } from "react-router-dom";
 import "./Header.scss";
 import HeaderMobile from "./HeaderMobile/HeaderMobile";
 import HeaderNavItem from "./HeaderNavItem/HeaderNavItem";
-import { desktopNavItems } from "../../config/componentVariable";
+import { desktopNavItems, userNavItems } from "../../config/componentVariable";
 import { v4 as uuidv4 } from "uuid";
-
+import { useSelector } from "react-redux";
+import { selectUser } from "../../redux/reducers/userReducer";
+import UserNavItem from "./UserNavItem/UserNavItem";
 export default function Header() {
   const url = useLocation();
   const headerRef = useRef(null);
   const [isScroll, setIsScroll] = useState(false);
+
+  // const [openNav, setOpenNav] = useState(false);
+  const user = useSelector(selectUser);
 
   useEffect(() => {
     const header = headerRef.current;
@@ -57,11 +62,29 @@ export default function Header() {
             ))}
           </ul>
         </div>
-        <div className="header__right">
-          <Link to="/" className="btn">
-            Đăng nhập
-          </Link>
-        </div>
+        {!user && (
+          <div className="header__right">
+            <Link to="/login" className="btn">
+              Đăng nhập
+            </Link>
+          </div>
+        )}
+
+        {user && (
+          <div className="user__nav">
+            <h1>{user.displayName}</h1>
+
+            <ul className={"user__nav-list"}>
+              {userNavItems.map((item) => (
+                <UserNavItem
+                  href={item.href}
+                  title={item.title}
+                  key={uuidv4()}
+                />
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
 
       <HeaderMobile />

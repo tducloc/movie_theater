@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import FilmList from "../components/FilmList/FilmList.js";
+import FilmList from "../../components/FilmList/FilmList.js";
 import "./index.scss";
 import axios from "axios";
 
