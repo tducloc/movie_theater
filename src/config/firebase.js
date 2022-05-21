@@ -1,7 +1,17 @@
 import { initializeApp } from "firebase/app";
 import "firebase/database";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { collection, getFirestore } from "firebase/firestore";
+import {
+  collection,
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  query,
+  where,
+  getDocs,
+  addDoc
+} from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAWv9XhdgWGeZ4JXvynI0nqDR5WcZlSKd8",
@@ -25,4 +35,17 @@ const db = getFirestore();
 // collection ref
 const commentRef = collection(db, "comment");
 const userRef = collection(db, "user");
-export { auth, commentRef, userRef, onAuthStateChanged, db };
+export {
+  auth,
+  commentRef,
+  userRef,
+  onAuthStateChanged,
+  db,
+  doc,
+  getDoc,
+  setDoc,
+  query,
+  where,
+  getDocs,
+  addDoc,
+};

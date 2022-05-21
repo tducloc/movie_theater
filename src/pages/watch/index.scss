@@ -112,10 +112,24 @@
         }
 
         &:hover {
-          color: red;
+          color: $red-color;
           background-color: $white;
         }
       }
+
+      .comment__no-login,.comment__done{
+        font-size: 1.6rem;
+        color: $white;
+        margin-bottom: 2rem;
+        a {
+          color: $blue-color;
+          &:hover{
+            text-decoration: underline;
+          }
+        }
+      }
+
+    
     }
   }
 }

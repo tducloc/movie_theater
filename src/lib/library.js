@@ -91,7 +91,13 @@ export const getYear = (dateString) => {
   return date.getFullYear();
 };
 
-
-export const formatPathName = pathName => {
+export const formatPathName = (pathName) => {
   return pathName.replace("/", "");
-}
+};
+
+export const formatTime = (dateTime) => {
+  const date = new Date(dateTime.seconds * 1000);
+  return `${date.getDate()}/${
+    +date.getMonth() + 1
+  }/${date.getFullYear()} - ${date.getHours()}:${date.getMinutes()}`;
+};

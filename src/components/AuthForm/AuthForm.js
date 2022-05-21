@@ -5,6 +5,7 @@ import { emailPattern, passwordPattern } from "../../config/componentVariable";
 import { login } from "../../redux/reducers/userReducer";
 import {
   registerWithEmailAndPassword,
+  resetPassword,
   signInWithAccount,
 } from "../../services/googleAuth";
 import "./AuthForm.scss";
@@ -42,14 +43,22 @@ export default function AuthForm({ type }) {
       case "login":
         result = await signInWithAccount(data.email, data.password);
         break;
+
+      case "resetPassword":
+        result = await resetPassword(data.email);
+        break;
       default:
         break;
     }
 
-    console.log(typeof result);
     if (typeof result === "string") {
       const errorMess = handleError(result);
       alert(errorMess);
+      return;
+    }
+
+    if (type === "resetPassword") {
+      alert(result.message);
       return;
     }
     dispatch(login(result));
@@ -72,7 +81,8 @@ export default function AuthForm({ type }) {
         break;
 
       case "auth/too-many-requests":
-        result = "Your account has been disabled because of multi fail attempts";
+        result =
+          "Your account has been disabled because of multi fail attempts";
         break;
       default:
         break;
@@ -100,18 +110,20 @@ export default function AuthForm({ type }) {
       {errors.email?.type === "pattern" && (
         <span className="error">Email format is wrong</span>
       )}
-      <input
-        type="password"
-        id="password"
-        placeholder="Password"
-        {...register("password", {
-          required: "Password is required",
-          pattern: passwordPattern.content,
-        })}
-        onChange={(e) => {
-          _handleOnChange(e, "password");
-        }}
-      />
+      {type !== "resetPassword" && (
+        <input
+          type="password"
+          id="password"
+          placeholder="Password"
+          {...register("password", {
+            required: "Password is required",
+            minLength: 6,
+          })}
+          onChange={(e) => {
+            _handleOnChange(e, "password");
+          }}
+        />
+      )}
 
       {errors.password?.type === "required" && (
         <span className="error">Password is required</span>
@@ -138,7 +150,7 @@ export default function AuthForm({ type }) {
       )}
 
       <button className="btn--blue" type="submit">
-        {type === "signup" ? "Register" : "Login"}
+        {type === "signup" ? "Register" : type === "login" ? "Login" : "Send"}
       </button>
     </form>
   );

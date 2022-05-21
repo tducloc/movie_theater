@@ -4,6 +4,7 @@ import {
   createUserWithEmailAndPassword,
   signOut,
   signInWithEmailAndPassword,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { auth } from "../config/firebase";
 import { addUser, getUser } from "../database/firestore";
@@ -58,4 +59,17 @@ export const signInWithAccount = async (email, password) => {
 
 export const googleLogout = () => {
   signOut(auth);
+};
+
+export const resetPassword = async (email) => {
+  try {
+    await sendPasswordResetEmail(auth, email);
+    return {
+      message:
+        "Check your mail to reset password (If you cannot find the mail, check spam section)",
+    };
+  } catch (err) {
+    console.log(err.code);
+    return err.code;
+  }
 };

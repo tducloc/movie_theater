@@ -9,7 +9,6 @@ function useFetch(url) {
     // let uri = `${process.env.REACT_APP_API_URL}/${mediaType}/${id}`;
     // if (mediaType === "tv") uri += `/season/${season}`;
 
-    console.log(url);
     if (url === null) return;
     (async function fetchData() {
       try {
@@ -29,7 +28,7 @@ function useFetch(url) {
     })();
   }, [url]);
 
-  return { isLoading, data,setData };
+  return { isLoading, data, setData };
 }
 
 export default useFetch;

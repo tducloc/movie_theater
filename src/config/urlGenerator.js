@@ -78,6 +78,14 @@ const generator = {
 
   getJoinedTvUrl:(id)=>{
     return `${process.env.REACT_APP_API_URL}/person/${id}/tv_credits`;
+  },
+
+  getStreamUrl(mediaType, id, episode, season)
+  {
+    if (mediaType === "movie")
+      return `${process.env.REACT_APP_STREAM_URL}/${mediaType}?id=${id}`;
+    else
+      return `${process.env.REACT_APP_STREAM_URL}/${mediaType}?id=${id}&s=${season}&e=${episode}`;
   }
 
 };

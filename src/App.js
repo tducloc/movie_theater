@@ -25,7 +25,6 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("abc");
     onAuthStateChanged(auth, async (userAuth) => {
       if (userAuth) {
         // user is logged in, send the user's details to redux, store the current user in the state
@@ -75,7 +74,7 @@ function App() {
           {/* Login page */}
           <Route path="/login" element={<AuthPage />}></Route>
           <Route path="/signup" element={<AuthPage />}></Route>
-
+          <Route path="/resetPassword" element={<AuthPage />}></Route>
           {/* SignUp page */}
 
           {/* Logout page */}

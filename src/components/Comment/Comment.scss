@@ -1,0 +1,36 @@
+@import "../../variable.scss";
+
+.comment__item {
+  display: flex;
+  column-gap: 2rem;
+  user-select: none;
+  height: 100%;
+  padding: 2rem;
+  .comment__item-profile {
+    img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+  }
+
+  .comment__item-info {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+
+    .comment__item-time {
+      font-size: 1.3rem;
+    }
+    .comment__item-username {
+      font-size: 1.6rem;
+      color: $white;
+    }
+    .comment__item-content {
+      font-size: 1.6rem;
+      color: $grey;
+    }
+  }
+}

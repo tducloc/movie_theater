@@ -35,7 +35,7 @@ export default function AuthPage() {
 
   return (
     <div className="auth container">
-      <h1>{authType === "signup" ? "Sign Up" : "Login"}</h1>
+      <h1>{authType === "signup" ? "Sign Up" : authType === "login" ? "Login" : "Reset password"}</h1>
 
       <div className="auth__input">
         <AuthForm type={authType} />
@@ -66,9 +66,9 @@ export default function AuthPage() {
           </span>
         )}
 
-        <span>
-          <Link to="/signup">Change password</Link>
-        </span>
+       {authType !== "resetPassword" && <span>
+          <Link to="/resetPassword">Change password</Link>
+        </span>}
       </div>
     </div>
   );
