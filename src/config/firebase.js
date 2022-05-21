@@ -9,7 +9,7 @@ import {
   setDoc,
   query,
   where,
-  getDocs,
+  getDocs,Timestamp,
   addDoc,
 } from "firebase/firestore";
 
@@ -48,4 +48,5 @@ export {
   where,
   getDocs,
   addDoc,
+  Timestamp,
 };

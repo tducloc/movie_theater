@@ -1,4 +1,3 @@
-import { Timestamp } from "firebase/firestore";
 import {
   db,
   doc,
@@ -9,6 +8,7 @@ import {
   getDocs,
   commentRef,
   addDoc,
+  Timestamp,
 } from "../config/firebase";
 
 export async function addComment(comment, userId) {
