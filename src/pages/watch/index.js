@@ -40,14 +40,18 @@ export default function WatchPage() {
       result = await getCommentOfTv(id, season, episode);
     }
     setComments(result);
+  }, [mediaType, id, season, episode]);
 
-    if (user) {
-      const hasComment = result.find(
-        (comment) => comment.user.uid === user.uid
-      );
-      if (hasComment) setIsComment(true);
-    }
-  }, [mediaType, id, season, episode, user]);
+  const checkUserHasComment = useCallback(() => {
+    const hasComment = comments.find(
+      (comment) => comment.user.uid === user.uid
+    );
+    if (hasComment) setIsComment(true);
+  }, [comments, user]);
+
+  useEffect(() => {
+    checkUserHasComment();
+  }, [checkUserHasComment]);
 
   useEffect(() => {
     fetchComment();
@@ -55,17 +59,17 @@ export default function WatchPage() {
 
   const sendComment = async () => {
     let createdComment = {
-      user,
       film_id: id,
       content: inputValue,
     };
     if (mediaType === "tv") {
       createdComment = { ...createdComment, episode, season };
     }
-    const res = await addComment(createdComment);
+    const res = await addComment(createdComment, user.uid);
+
     if (res) {
       setIsComment(true);
-      setComments((comments) => [...comments, res]);
+      setComments((comments) => [...comments, { ...res, user }]);
     }
   };
 

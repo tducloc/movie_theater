@@ -11,15 +11,16 @@ import {
   addDoc,
 } from "../config/firebase";
 
-export async function addComment(comment) {
+export async function addComment(comment, userId) {
   try {
     const date = Timestamp.fromDate(new Date());
 
-    const newDoc = { ...comment, createdAt: date };
+    const userRef = doc(db, "user", userId);
+
+    const newDoc = { ...comment, createdAt: date, userRef };
     await addDoc(commentRef, newDoc);
     return newDoc;
   } catch (error) {
-    
     return null;
   }
 }
@@ -29,7 +30,12 @@ export async function getCommentOfMovie(id) {
   const q = query(commentRef, where("film_id", "==", id));
   const res = await getDocs(q);
 
-  res.forEach((item) => result.push(item.data()));
+  for (let doc of res.docs) {
+    const data = doc.data();
+    const refData = await getDoc(data.userRef);
+    result.push({ ...data, user: refData.data() });
+  }
+
   return result;
 }
 
@@ -43,7 +49,11 @@ export async function getCommentOfTv(id, season, episode) {
   );
   const res = await getDocs(q);
 
-  res.forEach((item) => result.push(item.data()));
+  for (let doc of res.docs) {
+    const data = doc.data();
+    const refData = await getDoc(data.userRef);
+    result.push({ ...data, user: refData.data() });
+  }
   return result;
 }
 

@@ -10,7 +10,7 @@ import {
   query,
   where,
   getDocs,
-  addDoc
+  addDoc,
 } from "firebase/firestore";
 
 const firebaseConfig = {
