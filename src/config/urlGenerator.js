@@ -68,26 +68,24 @@ const generator = {
     return `${process.env.REACT_APP_API_IMAGE_PATH}/${path}`;
   },
 
-  getActorDetailUrl: (id)=>{
+  getActorDetailUrl: (id) => {
     return `${process.env.REACT_APP_API_URL}/person/${id}`;
   },
 
-  getJoinedMovieUrl: (id)=>{
+  getJoinedMovieUrl: (id) => {
     return `${process.env.REACT_APP_API_URL}/person/${id}/movie_credits`;
   },
 
-  getJoinedTvUrl:(id)=>{
+  getJoinedTvUrl: (id) => {
     return `${process.env.REACT_APP_API_URL}/person/${id}/tv_credits`;
   },
 
-  getStreamUrl(mediaType, id, episode, season)
-  {
+  getStreamUrl(mediaType, id, episode, season) {
     if (mediaType === "movie")
-      return `${process.env.REACT_APP_STREAM_URL}/${mediaType}?id=${id}`;
+      return `${process.env.REACT_APP_STREAM_URL}/${mediaType}?tmdb=${id}`;
     else
-      return `${process.env.REACT_APP_STREAM_URL}/${mediaType}?id=${id}&s=${season}&e=${episode}`;
-  }
-
+      return `${process.env.REACT_APP_STREAM_URL}/series?tmdb=${id}&sea=${season}&epi=${episode}`;
+  },
 };
 
 export default generator;
