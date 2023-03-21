@@ -99,7 +99,7 @@ export default function DetailPage() {
             <span className="certificate">TV-MA</span>
             <span className="rate">
               <IMDB />
-              <p>{detail.vote_average}</p>
+              <p>{(+detail.vote_average).toFixed(1)}</p>
             </span>
 
             <div className="btn-block">
